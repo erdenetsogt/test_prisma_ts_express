@@ -1,8 +1,7 @@
-model ModuleCompany {
+model User1 {
   id        Int      @id @default(autoincrement())
-  moduleId  Int
-  companyId Int
-  enable    Boolean
+  email     String   @unique
+  name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
+} 

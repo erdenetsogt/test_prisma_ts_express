@@ -1,39 +1,12 @@
-'use strict';
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('peopleDoctors', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      peopleId: {
-        type: Sequelize.INTEGER
-      },
-      degree: {
-        type: Sequelize.STRING
-      },
-      place: {
-        type: Sequelize.STRING
-      },
-      date: {
-        type: Sequelize.STRING
-      },
-      cerf: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
-  },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('peopleDoctors');
-  }
-};
+model PeopleDoctor {
+  id        Int      @id @default(autoincrement())
+  peopleId  Int?
+  degree    String?
+  place     String?
+  date      String?
+  cerf      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("peopleDoctors")
+}

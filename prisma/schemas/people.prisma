@@ -1,56 +1,13 @@
-'use strict';
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('people', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      firstName: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      lastName: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      register: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      birthday: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      birthcityId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      genderId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      ovog: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      nationalId: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      createdAt: {        
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
-  },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('People');
-  }
-};
+model People {
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  register    String
+  birthday    String
+  birthcityId Int
+  genderId    Int
+  ovog        String
+  nationalId  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
