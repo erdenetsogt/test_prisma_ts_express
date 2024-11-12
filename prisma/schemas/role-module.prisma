@@ -1,0 +1,48 @@
+'use strict';
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('roleModules', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      moduleCompanyId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      roleId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      read:
+      {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
+      update:
+      {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
+      write:
+      {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+  },
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('roleModules');
+  }
+};

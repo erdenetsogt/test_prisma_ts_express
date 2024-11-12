@@ -1,0 +1,43 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('sensors', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      model: {
+        allowNull:false,
+        type: Sequelize.STRING
+      },
+      brand: {
+        allowNull:false,
+        type: Sequelize.STRING
+      },
+      range: {
+        type: Sequelize.STRING
+      },
+      sensorTypeId:{
+        type: Sequelize.INTEGER
+      },
+      companyId:{
+        type: Sequelize.INTEGER
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+  },
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('sensors');
+  }
+};

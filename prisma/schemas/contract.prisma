@@ -1,0 +1,20 @@
+model Contract {
+  id          Int      @id @default(autoincrement())
+  pid         Int?
+  name        String?
+  nr          String?
+  clientId    Int?
+  amount      BigInt?
+  date        DateTime? @db.Date
+  paymentterm String?
+  enddate     DateTime? @db.Date
+  filename    String?
+  filesize    BigInt?
+  type        Int?
+  note        String?
+  sell        Boolean?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("contracts")
+}

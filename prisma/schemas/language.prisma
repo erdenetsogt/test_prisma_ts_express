@@ -1,0 +1,4 @@
+model Language {
+  id    Int    @id @default(autoincrement())
+  value String
+}
