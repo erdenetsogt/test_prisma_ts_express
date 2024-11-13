@@ -1,9 +1,0 @@
-model Door {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  companyId Int
-  ipAddress String?
-  company   Company  @relation(fields: [companyId], references: [id])
-
-  @@map("doors")
-}

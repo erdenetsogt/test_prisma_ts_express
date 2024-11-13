@@ -1,8 +1,0 @@
-model Country {
-  id    Int     @id @default(autoincrement())
-  value String?
-  code  String?
-
-  @@map("countries")
-}
-

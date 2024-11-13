@@ -1,6 +1,0 @@
-model Sum {
-  id         Int      @id @default(autoincrement())
-  value      String?
-  provinceId Int?
-  province   Province? @relation(fields: [provinceId], references: [id])
-}

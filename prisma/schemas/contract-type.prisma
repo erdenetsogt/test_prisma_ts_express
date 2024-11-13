@@ -1,7 +1,0 @@
-model ContractType {
-  id    Int     @id @default(autoincrement())
-  type  Int
-  value String
-
-  @@map("contractTypes")
-}

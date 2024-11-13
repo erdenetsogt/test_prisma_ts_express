@@ -1,4 +1,0 @@
-model Gender {
-  id    Int     @id @default(autoincrement())
-  value String?
-}

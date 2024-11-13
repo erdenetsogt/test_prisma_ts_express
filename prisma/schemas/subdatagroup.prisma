@@ -1,4 +1,0 @@
-model SubDataGroup {
-  id    Int     @id @default(autoincrement())
-  value String?
-}

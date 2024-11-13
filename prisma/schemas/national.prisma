@@ -1,4 +1,0 @@
-model National {
-  id    Int     @id @default(autoincrement())
-  value String?
-}

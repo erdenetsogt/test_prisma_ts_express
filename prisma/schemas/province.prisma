@@ -1,8 +1,0 @@
-// ... existing Prisma schema code ...
-
-model Province {
-  id    Int    @id @default(autoincrement())
-  value String?
-}
-
-// ... rest of your Prisma schema ...

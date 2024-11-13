@@ -1,5 +1,0 @@
-model SubData {
-  id      Int      @id @default(autoincrement())
-  groupId Int?
-  value   String?
-}

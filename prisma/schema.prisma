@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  
 }
 
 datasource db {
@@ -11,51 +12,478 @@ datasource db {
 }
 
 
-include "schema/client.prisma"
-include "schema/company.prisma"
-include "schema/contact.prisma"
-include "schema/contract-type.prisma"
-include "schema/contract.prisma"
-include "schema/country.prisma"
-include "schema/department.prisma"
-include "schema/door.prisma"
-include "schema/employee.prisma"
-include "schema/gender.prisma"
-include "schema/language.prisma"
-include "schema/measurement-object.prisma"
-include "schema/module-company.prisma"
-include "schema/module.prisma"
-include "schema/national.prisma"
-include "schema/origin.prisma"
-include "schema/people-address.prisma"
-include "schema/people-computer.prisma"
-include "schema/people-contact.prisma"
-include "schema/people-doctor.prisma"
-include "schema/people-education.prisma"
-include "schema/people-job-degree.prisma"
-include "schema/people-job-education.prisma"
-include "schema/people-job-level.prisma"
-include "schema/people-language.prisma"
-include "schema/people-relation.prisma"
-include "schema/people-talent.prisma"
-include "schema/people.prisma"
-include "schema/position.prisma"
-include "schema/province.prisma"
-include "schema/relation.prisma"
-include "schema/role-module.prisma"
-include "schema/role.prisma"
-include "schema/sensor-object-value.prisma"
-include "schema/sensor-object.prisma"
-include "schema/sensor-type.prisma"
-include "schema/sensor.prisma"
-include "schema/skill.prisma"
-include "schema/subdata.prisma"
-include "schema/subdatagroup.prisma"
-include "schema/sum.prisma"
-include "schema/technology.prisma"
-include "schema/temperature.prisma"
-include "schema/user.prisma"
-include "schema/user_2.prisma"
-include "schema/user-role.prisma"
+model Client {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  register  String   @unique
+  contact   String?
+  address   String?
 
+  @@map("clients")
+}
+
+model Company {
+  id        Int          @id @default(autoincrement())
+  name      String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  doors     Door[]
+  sensors   Sensor[]
+  departments Department[]
+
+  @@map("companies")
+}
+
+model Contact {
+  id    Int     @id @default(autoincrement())
+  value String?
+  code  Int?
+
+  @@map("contacts")
+}
+
+model Contract {
+  id          Int       @id @default(autoincrement())
+  pid         Int?
+  name        String?
+  nr          String?
+  clientId    Int?
+  amount      BigInt?
+  date        DateTime? @db.Date
+  paymentterm String?
+  enddate     DateTime? @db.Date
+  filename    String?
+  filesize    BigInt?
+  type        Int?
+  note        String?
+  sell        Boolean?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("contracts")
+}
+
+model ContractType {
+  id    Int    @id @default(autoincrement())
+  type  Int
+  value String
+
+  @@map("contractTypes")
+}
+
+model Country {
+  id    Int     @id @default(autoincrement())
+  value String?
+  code  String?
+
+  @@map("countries")
+}
+
+model Department {
+  id        Int          @id @default(autoincrement())
+  parentId  Int?
+  companyId Int
+  name      String
+  startdate DateTime
+  enddate   DateTime?
+  status    Int
+  parent    Department?  @relation("DepartmentToParent", fields: [parentId], references: [id])
+  children  Department[] @relation("DepartmentToParent")
+  company   Company      @relation(fields: [companyId], references: [id])
+
+  @@map("departments")
+}
+
+model Door {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  companyId Int
+  ipAddress String?
+  company   Company  @relation(fields: [companyId], references: [id])
+
+  @@map("doors")
+}
+
+model Employee {
+  id         Int       @id @default(autoincrement())
+  peopleId   Int?
+  positionId Int?
+  status     Int?
+  startdate  DateTime
+  enddate    DateTime?
+
+  @@map("employees")
+}
+
+model Gender {
+  id    Int     @id @default(autoincrement())
+  value String?
+
+  @@map("genders")
+}
+
+model Language {
+  id    Int    @id @default(autoincrement())
+  value String
+
+  @@map("languages")
+}
+
+model MeasurementObject {
+  id          Int      @id @default(autoincrement())
+  name        String
+  location    String?
+  description String?
+  companyId   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("measurementObjects")
+}
+
+model Module {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("modules")
+}
+
+model ModuleCompany {
+  id        Int      @id @default(autoincrement())
+  moduleId  Int
+  companyId Int
+  enable    Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("moduleCompanies")
+}
+
+model National {
+  id    Int     @id @default(autoincrement())
+  value String?
+
+  @@map("nationals")
+}
+
+model Origin {
+  id    Int     @id @default(autoincrement())
+  value String?
+
+  @@map("origins")
+}
+
+model People {
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  register    String
+  birthday    String
+  birthcityId Int
+  genderId    Int
+  ovog        String
+  nationalId  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("people")
+}
+
+model PeopleAddress {
+  id            Int      @id @default(autoincrement())
+  peopleId      Int
+  sumId         Int
+  provinceId    Int
+  homeaddress   String?
+  mobile        String?
+  fax           String?
+  email         String?
+  postAddress   String?
+  contactPerson String?
+  contactMobile String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("peopleAddresses")
+}
+
+model PeopleComputer {
+  id        Int      @id @default(autoincrement())
+  peopleId  Int
+  skillId   Int
+  vote      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("peopleComputers")
+}
+
+model PeopleContact {
+  id        Int      @id @default(autoincrement())
+  peopleId  Int
+  contactId Int
+  value     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("peopleContacts")
+}
+
+model PeopleDoctor {
+  id        Int      @id @default(autoincrement())
+  peopleId  Int?
+  degree    String?
+  place     String?
+  date      String?
+  cerf      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("peopleDoctors")
+}
+
+model PeopleEducation {
+  id        Int       @id @default(autoincrement())
+  peopleId  Int
+  school    String?
+  start     DateTime? @db.Date
+  end       DateTime? @db.Date
+  cerf      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("peopleEducations")
+}
+
+model PeopleJobDegree {
+  id           Int       @id @default(autoincrement())
+  peopleId     Int
+  degree       String?
+  organization String?
+  date         DateTime? @db.Date
+  cerf         String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("peopleJobDegrees")
+}
+
+model PeopleJobLevel {
+  id        Int      @id @default(autoincrement())
+  peopleId  Int?
+  name      String?
+  degree    String?
+  more      String?
+  cerf      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("peopleJobLevels")
+}
+
+model PeopleLanguage {
+  id         Int      @id @default(autoincrement())
+  peopleId   Int?
+  languageId Int?
+  skillId    Int?
+  vote       Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("peopleLanguages")
+}
+
+model PeopleRelation {
+  id         Int      @id @default(autoincrement())
+  peopleId   Int
+  relationId Int
+  name       String?
+  birthplace String?
+  work       String?
+  type       Int?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("peopleRelations")
+}
+
+model PeopleTalent {
+  id        Int      @id @default(autoincrement())
+  peopleId  Int
+  talentId  Int
+  vote      Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("peopleTalents")
+}
+
+model Position {
+  id           Int       @id @default(autoincrement())
+  name         String?
+  departmentId Int?
+  status       Int?
+  startdate    DateTime
+  enddate      DateTime?
+
+  @@map("positions")
+}
+
+model Province {
+  id    Int     @id @default(autoincrement())
+  value String?
+  sums  Sum[]
+
+  @@map("provinces")
+}
+
+model Relation {
+  id    Int     @id @default(autoincrement())
+  value String?
+
+  @@map("relations")
+}
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  name      String
+  companyId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("roles")
+}
+
+model RoleModule {
+  id              Int      @id @default(autoincrement())
+  moduleCompanyId Int
+  roleId          Int
+  read            Boolean
+  update          Boolean
+  write           Boolean
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("roleModules")
+}
+
+model Sensor {
+  id           Int         @id @default(autoincrement())
+  model        String
+  brand        String
+  range        String?
+  sensorType   SensorType? @relation(fields: [sensorTypeId], references: [id])
+  sensorTypeId Int?
+  company      Company?    @relation(fields: [companyId], references: [id])
+  companyId    Int?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("sensors")
+}
+
+model SensorObject {
+  id          Int      @id @default(autoincrement())
+  name        String
+  sensorId    Int
+  description String?
+  companyId   Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("sensorObjects")
+}
+
+model SensorObjectValue {
+  id    Int       @id @default(autoincrement())
+  value Float?
+  date  DateTime?
+
+  @@map("sensorObjectValues")
+}
+
+model SensorType {
+  id       Int      @id @default(autoincrement())
+  typeName String?
+  sensors  Sensor[]
+
+  @@map("sensorTypes")
+}
+
+model Skill {
+  id    Int    @id @default(autoincrement())
+  value String
+  code  String
+
+  @@map("skills")
+}
+
+model SubData {
+  id      Int     @id @default(autoincrement())
+  groupId Int?
+  value   String?
+
+  @@map("subData")
+}
+
+model SubDataGroup {
+  id    Int     @id @default(autoincrement())
+  value String?
+
+  @@map("subDataGroups")
+}
+
+model Sum {
+  id         Int       @id @default(autoincrement())
+  value      String?
+  provinceId Int?
+  province   Province? @relation(fields: [provinceId], references: [id])
+
+  @@map("sums")
+}
+
+model Technology {
+  id    Int     @id @default(autoincrement())
+  value String?
+  code  Int?
+
+  @@map("technologies")
+}
+
+model Temperature {
+  id          Int       @id @default(autoincrement())
+  temperature Decimal?  @db.Decimal(5, 2)
+  humidity    Decimal?  @db.Decimal(5, 2)
+  sensorId    Int?
+  date        DateTime?
+
+  @@map("temperatures")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  password     String?
+  refreshToken String?
+  status       Int?
+  peopleId     Int?
+  companyId    Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model UserRole {
+  id        Int      @id @default(autoincrement())
+  roleId    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("userRoles")
+}
 

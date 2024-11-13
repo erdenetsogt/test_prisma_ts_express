@@ -1,7 +1,0 @@
-model Technology {
-  id    Int     @id @default(autoincrement())
-  value String?
-  code  Int?
-
-  @@map("technologies")
-}

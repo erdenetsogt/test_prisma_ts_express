@@ -1,7 +1,0 @@
-model Client {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  register  String?
-  contact   String?
-  address   String?
-}

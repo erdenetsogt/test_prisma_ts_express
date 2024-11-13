@@ -1,9 +1,0 @@
-model Temperature {
-  id          Int      @id @default(autoincrement())
-  temperature Decimal? @db.Decimal(5,2)
-  humidity    Decimal? @db.Decimal(5,2)
-  sensorId    Int?
-  date        DateTime?
-
-  @@map("temperatures")
-}

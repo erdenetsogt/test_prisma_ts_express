@@ -1,4 +1,0 @@
-model SensorType {
-  id       Int      @id @default(autoincrement())
-  typeName String?
-}

@@ -1,7 +1,0 @@
-model Contact {
-  id    Int     @id @default(autoincrement())
-  value String?
-  code  Int?
-
-  @@map("contacts")
-}

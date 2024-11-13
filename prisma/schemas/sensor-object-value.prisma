@@ -1,7 +1,0 @@
-model SensorObjectValue {
-  id    Int      @id @default(autoincrement())
-  value Float?
-  date  DateTime?
-
-  @@map("sensorObjectValues")
-}
