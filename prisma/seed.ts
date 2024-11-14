@@ -50,9 +50,11 @@ async function main() {
     })
   }
 
-
+  const province = await prisma.province.findFirst({
+    where: { value: 'Улаанбаатар' }
+  })
   const sum = await prisma.sum.findFirst({
-    where: { value: 'Баянгол' }
+    where: { value: 'Баянзүрх' }
   })
 
   // Create a person
@@ -69,7 +71,7 @@ async function main() {
       address: {
         create: {
           sumId: sum!.id,
-          provinceId: province.id,
+          provinceId: province!.id,
           homeaddress: '1-р хороо, 2-р байр',
           mobile: '99119911',
           email: 'bat.bold@example.com',
