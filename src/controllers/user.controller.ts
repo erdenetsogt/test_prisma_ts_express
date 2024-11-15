@@ -20,7 +20,19 @@ export class UserController {
       res.status(500).json({ error: 'Error fetching users' });
     }
   }
-
+  static async login(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+      const user = await UserModel.findByEmailPassword(email, password);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      
+      res.json(user);
+    } catch (error) {
+      
+    }
+  }
   static async getUserById(req: Request, res: Response) {
     try {
       const id = parseInt(req.params.id);

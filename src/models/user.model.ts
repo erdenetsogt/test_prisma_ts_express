@@ -23,7 +23,12 @@ export class UserModel {
       data
     });
   }
-
+  static async findByEmailPassword(email: string, password: string) {
+    return prisma.user.findUnique({
+      where: { email, password }
+    });
+    
+  }
   static async delete(id: number) {
     return prisma.user.delete({
       where: { id }
