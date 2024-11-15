@@ -1,10 +1,7 @@
-
-
-// middleware/auth.middleware.ts 
 import { Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
 import * as jwt from 'jsonwebtoken';
-import { JWTPayload, AuthRequest } from '../types/user.types';
+import { JWTPayload, AuthRequest } from '../types/auth.types';
 
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -25,7 +22,7 @@ export class AuthMiddleware {
       }
 
       const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
-      
+
       // Use Promise.resolve() to handle the async operation properly
       return Promise.resolve()
         .then(async () => {
@@ -51,12 +48,18 @@ export class AuthMiddleware {
           }
 
           const roles = user.UserRole.map(ur => ur.role.name);
-          const permissions = user.UserRole.flatMap(ur => ur.role || []);
+          //const permissions = user.UserRole.flatMap(ur => JSON.parse(ur.role.permissions) as string[]);
+          const permissions = user.UserRole.flatMap(ur => {
+            const parsedPermissions = ur.role.permissions ? JSON.parse(ur.role.permissions as string) : null;
+            return Array.isArray(parsedPermissions) ? parsedPermissions : [];
+          }) as string[];
 
           req.user = {
             userId: user.id,
             email: user.email,
-            roles
+            companyId: user.companyId ?? 0,
+            roles,
+            permissions
           };
 
           next();
@@ -80,12 +83,12 @@ export class AuthMiddleware {
       }
 
       const hasRequiredRole = req.user.roles.some(role => roles.includes(role));
-      
+
       if (!hasRequiredRole) {
-        res.status(403).json({ 
+        res.status(403).json({
           message: 'Insufficient permissions',
           required: roles,
-          current: req.user.roles 
+          current: req.user.roles
         });
         return;
       }
@@ -107,10 +110,10 @@ export class AuthMiddleware {
       );
 
       if (!hasRequiredPermission) {
-        res.status(403).json({ 
+        res.status(403).json({
           message: 'Insufficient permissions',
           required: permissions,
-          current: req.user.permissions 
+          current: req.user.permissions
         });
         return;
       }
@@ -132,10 +135,10 @@ export class AuthMiddleware {
       );
 
       if (!hasAnyRequiredPermission) {
-        res.status(403).json({ 
+        res.status(403).json({
           message: 'Insufficient permissions',
           required: permissions,
-          current: req.user.permissions 
+          current: req.user.permissions
         });
         return;
       }
@@ -144,5 +147,3 @@ export class AuthMiddleware {
     };
   }
 }
-
-// Example usage in routes:

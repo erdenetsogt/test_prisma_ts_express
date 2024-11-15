@@ -1,28 +1,30 @@
-import express from 'express';
-import { AuthController } from '../controllers/auth.controller';
-import {AuthMiddleware} from '../middleware/auth.middleware';
-
-const authRouter  = express.Router();
-const authController = new AuthController();
-//const auth = new AuthMiddeware();
+import express,{Response} from 'express';
+import { AuthMiddleware } from '../middleware/auth.middleware';
+import { AuthRequest } from '../types/auth.types';
 
 
+const router = express.Router();
 
-authRouter.post('/register', authController.register);
-authRouter.post('/login', authController.login);
-authRouter.post('/refresh', authController.refresh);
-authRouter.post('/logout', AuthMiddleware.verifyToken, authController.logout);
+// Use the middleware with proper typing
+router.post('/register', AuthMiddleware.verifyToken, (req: AuthRequest, res: Response) => {
+  
+})
 
-// Protected route example with role check
-authRouter.get('/admin', 
-  AuthMiddleware.verifyToken, 
-  AuthMiddleware.hasRole(['ADMIN']), 
-  (req, res) => {
-    res.json({ message: 'Admin access granted', user: 'hi' });
-    
+router.get(
+  '/protected',
+  AuthMiddleware.verifyToken,
+  (req: AuthRequest, res: Response) => {
+    res.json({ user: req.user });
   }
 );
 
+router.get(
+  '/admin',
+  AuthMiddleware.verifyToken,
+  AuthMiddleware.hasRole(['ADMIN']),
+  (req: AuthRequest, res: Response) => {
+    res.json({ message: 'Admin access granted', user: req.user });
+  }
+);
 
-
-export default authRouter;
+export const userRouter = router;

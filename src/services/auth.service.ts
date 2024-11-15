@@ -4,14 +4,14 @@
   import * as bcrypt from 'bcrypt';
   import * as jwt from 'jsonwebtoken';
   import { randomBytes } from 'crypto';
-  import { UserCredentials, JWTPayload, UserResponse } from '../types/user.types';
+  import {  JWTPayload,UserCredentials } from '../types/auth.types';
   const prisma = new PrismaClient()
   const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
   const REFRESH_SECRET = process.env.REFRESH_SECRET || 'your-refresh-secret-key';
   
   export class AuthService {
     async register(credentials: UserCredentials) {
-      const { email, password, peopleId, companyId } = credentials;
+      const { email, password} = credentials;
   
       // Check if user already exists
       const existingUser = await prisma.user.findUnique({
@@ -34,9 +34,7 @@
           email,
           password: hashedPassword,
           refreshToken,
-          status: 1, // Active status
-          peopleId,
-          companyId,
+          status: 1, // Active status          
         },
         include: {
           company: true,
@@ -53,7 +51,7 @@
       const { accessToken, refreshToken: newRefreshToken } = await this.generateTokens(user);
   
       return {
-        user: this.sanitizeUser(user),
+        //user: this.sanitizeUser(user),
         accessToken,
         refreshToken: newRefreshToken
       };
@@ -102,7 +100,7 @@
       });
   
       return {
-        user: this.sanitizeUser(user),
+        //user: this.sanitizeUser(user),
         accessToken,
         refreshToken
       };
@@ -137,7 +135,7 @@
       });
   
       return {
-        user: this.sanitizeUser(user),
+        //user: this.sanitizeUser(user),
         ...tokens
       };
     }
@@ -149,7 +147,8 @@
         userId: user.id,
         email: user.email,
         companyId: user.companyId,
-        roles
+        roles: roles,
+        permissions: user.permissions
       };
   
       const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
@@ -166,10 +165,10 @@
       }
     }
   
-    private sanitizeUser(user: any): UserResponse {
-      const { password, refreshToken, ...sanitizedUser } = user;
-      return sanitizedUser;
-    }
+    // private sanitizeUser(user: any): UserResponse {
+    //   const { password, refreshToken, ...sanitizedUser } = user;
+    //   return sanitizedUser;
+    // }
   
     async logout(userId: number) {
       await prisma.user.update({
