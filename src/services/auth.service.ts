@@ -6,9 +6,10 @@
   import { randomBytes } from 'crypto';
   import {  JWTPayload,UserCredentials } from '../types/auth.types';
   const prisma = new PrismaClient()
-  const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-  const REFRESH_SECRET = process.env.REFRESH_SECRET || 'your-refresh-secret-key';
-  
+  const JWT_SECRET = process.env.JWT_SECRET || 'ohDAlZ6VQvsntVD5Gc1P';
+  const REFRESH_SECRET = process.env.REFRESH_SECRET || 'QGTjmbqu0duJgigKZsIV';
+  const ACCESS_EXPIRESIN = process.env.ACCESS_EXPIRESIN || '30m';
+  const REFRESH_EXPIRESIN = process.env.REFRESH_EXPIRESIN || '7d';
   export class AuthService {
     async register(credentials: UserCredentials) {
       const { email, password} = credentials;
@@ -151,7 +152,7 @@
         permissions: user.permissions
       };
   
-      const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
+      const accessToken = jwt.sign(payload, JWT_SECRET, { expiresIn: ACCESS_EXPIRESIN });
       const refreshToken = randomBytes(40).toString('hex');
   
       return { accessToken, refreshToken };
