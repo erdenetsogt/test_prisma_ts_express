@@ -7,9 +7,9 @@ const router = express.Router();
 const authService = new AuthController();
 // Use the middleware with proper typing
 
-router.post('/login', AuthMiddleware.verifyToken, authService.login);
-router.post('/register', AuthMiddleware.verifyToken, authService.register);
-router.post('/logout', AuthMiddleware.verifyToken, authService.logout);
+router.post('/login', authService.login);
+router.post('/register', authService.register);
+router.post('/logout', authService.logout);
 router.post('/refresh', AuthMiddleware.verifyToken, authService.refresh);
 
 

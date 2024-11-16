@@ -3,6 +3,7 @@ const prisma = new PrismaClient()
 import provinceData from './province.json'
 import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt';
+import { AuthService } from '../src/services/auth.service';
 async function main() {
   // Clean existing data
   await prisma.$transaction([
@@ -39,6 +40,8 @@ async function main() {
   ])
 
   // Create base data
+
+  const authService = new AuthService();
 
   for (const province of provinceData.provinces) {
     await prisma.province.create({
@@ -137,7 +140,7 @@ async function main() {
 
   })
   
-  const hashedPassword = await bcrypt.hash('Mongol@123', 10);
+  const hashedPassword =  await bcrypt.hash('Mongol@123', 10);
   // Create user and roles
   const user = await prisma.user.create({
     data: {

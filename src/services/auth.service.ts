@@ -6,10 +6,8 @@
   import { randomBytes } from 'crypto';
   import {  JWTPayload,UserCredentials } from '../types/auth.types';
   const prisma = new PrismaClient()
-  const JWT_SECRET = process.env.JWT_SECRET || 'ohDAlZ6VQvsntVD5Gc1P';
-  const REFRESH_SECRET = process.env.REFRESH_SECRET || 'QGTjmbqu0duJgigKZsIV';
-  const ACCESS_EXPIRESIN = process.env.ACCESS_EXPIRESIN || '30m';
-  const REFRESH_EXPIRESIN = process.env.REFRESH_EXPIRESIN || '7d';
+  const JWT_SECRET = process.env.JWT_SECRET || 'ohDAlZ6VQvsntVD5Gc1P'; 
+  const ACCESS_EXPIRESIN = process.env.ACCESS_EXPIRESIN || '30m'; 
   export class AuthService {
     async register(credentials: UserCredentials) {
       const { email, password} = credentials;
@@ -60,7 +58,7 @@
   
     async login(credentials: UserCredentials) {
       const { email, password } = credentials;
-  
+      
       // Find user with relationships
       const user = await prisma.user.findUnique({
         where: { email },
@@ -74,7 +72,7 @@
           }
         }
       });
-  
+      
       if (!user || !user.password) {
         throw new Error('Invalid credentials');
       }
