@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import {userRouter} from './routes/user.routes'
+import { peopleRouter } from './routes/poeple.routes';
 dotenv.config();
 const router = express.Router();
 const app: Express = express();
@@ -11,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 router.use('/user', userRouter);
+router.use('/hr/people', peopleRouter);
 app.use(router);
 
 // Test route
