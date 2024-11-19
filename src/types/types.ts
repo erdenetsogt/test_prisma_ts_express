@@ -2,17 +2,17 @@ import { z } from 'zod';
 
 // Base schemas for related models
 const PeopleAddressSchema = z.object({
-  street: z.string().min(1, 'Street is required'),
-  city: z.string().min(1, 'City is required'),
-  district: z.string().optional(),
-  addressDetail: z.string().optional(),
+  homeaddress: z.string().min(1, 'Home address is required'),
+  mobile: z.string().min(8, 'Mobile number must be at least 8 characters'),        
+  fax:z.string().min(8, 'Fax number must be at least 8 characters'),       
+  email: z.string().min(1, 'Email is required').email('Invalid email format'),
+  postAddress: z.string().min(1, 'Post address is required'),
+  contactPerson: z.string().min(1, 'Contact person is required'),
+  contactMobile: z.string().min(8, 'Contact mobile number must be at least 8 characters'), 
 });
 
 const PeopleContactSchema = z.object({
-  phone: z.string().min(8, 'Phone number must be at least 8 characters'),
-  email: z.string().email('Invalid email format'),
-  emergencyPhone: z.string().optional(),
-  emergencyName: z.string().optional(),
+  value: z.string().min(8, 'Phone number must be at least 8 characters'),  
 });
 
 const PeopleEducationSchema = z.object({
