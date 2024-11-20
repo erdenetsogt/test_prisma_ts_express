@@ -30,4 +30,4 @@ router.get(
   }
 );
 
-export const userRouter = router;
+export const authRouter = router;
