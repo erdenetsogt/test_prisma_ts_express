@@ -3,7 +3,7 @@ import {
   People
 } from '../types/people.types';
 const prisma = new PrismaClient();
-export class PeopleController {
+export class PeopleService {
   async create(people: People) {
     try {
       const createdPerson = await prisma.people.create({ data: people });
