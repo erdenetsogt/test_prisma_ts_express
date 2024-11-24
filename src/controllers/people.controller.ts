@@ -5,8 +5,6 @@ import { PeopleService } from '../services/people.service'
 import { z } from 'zod'
 import { People } from '../types/people.types'
 
-
-
 const prisma = new PrismaClient()
 const peopleService = new PeopleService()
 export class PeopleController {
@@ -48,5 +46,14 @@ export class PeopleController {
             res.status(400).json({ error: 'error', details: error })
         }
 
+    }
+    static async test(req: Request, res: Response) {
+        try {       
+            const defunt: People = req.body   
+            console.log("req.body")
+            res.status(201).json(req.body)
+        } catch (error) {
+            res.status(400).json({ error: 'error', details: error })
+        }
     }
 }

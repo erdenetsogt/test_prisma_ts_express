@@ -13,6 +13,7 @@ const PeopleAddressSchema = z.object({
 
 const PeopleContactSchema = z.object({
   value: z.string().min(8, 'Phone number must be at least 8 characters'),  
+
 });
 
 const PeopleEducationSchema = z.object({

@@ -128,8 +128,8 @@ export interface People {
   genderId: number;
   ovog: string;
   nationalId: number;
-  createdAt: Date;
-  updatedAt: Date;
+  //createdAt: Date;
+  //updatedAt: Date;
   peopleAddress?: PeopleAddress;
   peopleContact?: PeopleContact;
   peopleEducation?: PeopleEducation[];
