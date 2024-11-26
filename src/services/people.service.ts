@@ -1,12 +1,45 @@
 import { PrismaClient } from '@prisma/client';
-import { 
+import {
   People
 } from '../types/people.types';
+import { create } from 'domain';
 const prisma = new PrismaClient();
 export class PeopleService {
   async create(people: People) {
     try {
-      const createdPerson = await prisma.people.create({ data: people });
+
+      const createdPerson = await prisma.people.create({
+        data: {
+
+          firstName: people.firstName,
+          lastName: people.lastName,
+          register: people.register,
+          birthday: people.birthday,
+          birthcityId: people.birthcityId,
+          genderId: people.genderId,
+          ovog: people.ovog,
+          nationalId: people.nationalId,
+          address: people.address ? {
+            create: {
+              // sumId: people.address?.sumId,
+              // provinceId: people.address?.provinceId,
+              homeaddress: people.address?.homeaddress,
+              mobile: people.address?.mobile,
+              fax: people.address?.fax,
+              email: people.address?.email,
+              postAddress: people.address?.postAddress,
+              contactPerson: people.address?.contactPerson,
+              contactMobile: people.address?.contactMobile,
+            }
+
+          }:undefined
+        },
+        include: {
+          address: true
+          sum: true
+          province: true
+        }
+      });
       return createdPerson;
     } catch (error) {
       console.error('Error in people.create:', error);

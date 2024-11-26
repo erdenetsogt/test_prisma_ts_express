@@ -1,18 +1,18 @@
 import { z } from 'zod';
 
 // Base interfaces for related models
-interface PeopleAddress {  
+interface PeopleAddress {
   //id:            number;
-  peopleId:      number;
-  sumId:         number;
-  provinceId:    number;
-  homeaddress:   string;
-  mobile:        string;
-  fax:           string;
-  email:         string;
-  postAddress:   string;
-  contactPerson: string;
-  contactMobile: string;
+  peopleId: number;
+  sumId?: number;
+  provinceId?: number;
+  homeaddress?: string;
+  mobile?: string;
+  fax?: string;
+  email?: string;
+  postAddress?: string;
+  contactPerson?: string;
+  contactMobile?: string;
 }
 
 interface PeopleComputer {
@@ -25,7 +25,7 @@ interface PeopleComputer {
 interface PeopleContact {
   //id: number;
   peopleId: number;
-  contactId:number;
+  contactId: number;
   value: string;
 
   // Add other contact fields
@@ -33,10 +33,10 @@ interface PeopleContact {
 interface PeopleDoctor {
   //id:number;
   peopleId: number;
-  degree:string;
-  place:string;
-  date:string;
-  cerf:string;
+  degree: string;
+  place: string;
+  date: string;
+  cerf: string;
 
   // Add other doctor fields
 }
@@ -63,7 +63,7 @@ interface PeopleJobDegree {
 interface PeopleJobLevel {
   //id: number;
   peopleId: number;
-  name:string
+  name: string
   degree: string;
   more: string;
   cerf: string;
@@ -82,10 +82,10 @@ interface PeopleRelation {
   //id:number;
   peopleId: number;
   relationId: number;
-  name:number;
-  brithplace:string;
-  work:string;
-  type:number
+  name: number;
+  brithplace: string;
+  work: string;
+  type: number
   // Add other relation fields
 }
 
@@ -110,7 +110,7 @@ interface PeopleJobEduction {
   organization: string;
   startDate: string;
   duration: number;
-  label:string;
+  label: string;
   cerf: string;
   // Add other job education fields
 }
@@ -119,7 +119,7 @@ interface PeopleJobEduction {
 
 // Main People interface
 export interface People {
-  
+
   firstName: string;
   lastName: string;
   register: string;
@@ -130,18 +130,28 @@ export interface People {
   nationalId: number;
   //createdAt: Date;
   //updatedAt: Date;
-  peopleAddress?: PeopleAddress;
-  peopleContact?: PeopleContact;
-  peopleEducation?: PeopleEducation[];
-  peopleJobDegree?: PeopleJobDegree[];
-  peopleJobLevel?: PeopleJobLevel[];
-  peopleRelation?: PeopleRelation[];
-  peopleLanguage?: PeopleLanguage[];
-  peopleComputer?: PeopleComputer[];
-  peopleDoctor?: PeopleDoctor[];
-  peopleTalent?: PeopleTalent[];
-  peopleJobEduction?: PeopleJobEduction[];
-  
+  address?: {    
+    // sumId?: number;
+    // provinceId?: number;
+    homeaddress?: string;
+    mobile?: string;
+    fax?: string;
+    email?: string;
+    postAddress?: string;
+    contactPerson?: string;
+    contactMobile?: string;
+  };
+  contact?: PeopleContact;
+  education?: PeopleEducation[];
+  jobDegree?: PeopleJobDegree[];
+  jobLevel?: PeopleJobLevel[];
+  relation?: PeopleRelation[];
+  language?: PeopleLanguage[];
+  computer?: PeopleComputer[];
+  doctor?: PeopleDoctor[];
+  talent?: PeopleTalent[];
+  jobEduction?: PeopleJobEduction[];
+
 }
 
 // Zod schema for validation
