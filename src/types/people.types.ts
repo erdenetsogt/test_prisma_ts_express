@@ -1,11 +1,27 @@
 import { z } from 'zod';
 
 // Base interfaces for related models
+interface sum {
+  id: number;
+  value: string;
+  provinceId: number;
+
+}
+interface province {
+  id: number;
+  value: string;
+  sum?: sum[];
+}
+interface gender{
+  id: number;
+  value: string;
+}
 interface PeopleAddress {
   //id:            number;
-  peopleId: number;
-  sumId?: number;
-  provinceId?: number;
+
+  peopleId:      number;
+  sumId:         number;
+  provinceId:    number;
   homeaddress?: string;
   mobile?: string;
   fax?: string;
@@ -130,17 +146,18 @@ export interface People {
   nationalId: number;
   //createdAt: Date;
   //updatedAt: Date;
-  address?: {    
-    // sumId?: number;
-    // provinceId?: number;
-    homeaddress?: string;
-    mobile?: string;
-    fax?: string;
-    email?: string;
-    postAddress?: string;
-    contactPerson?: string;
-    contactMobile?: string;
-  };
+  // address?: {    
+  //   sumId?: number;
+  //   provinceId?: number;
+  //   homeaddress?: string;
+  //   mobile?: string;
+  //   fax?: string;
+  //   email?: string;
+  //   postAddress?: string;
+  //   contactPerson?: string;
+  //   contactMobile?: string;
+  // };
+  address?: PeopleAddress;
   contact?: PeopleContact;
   education?: PeopleEducation[];
   jobDegree?: PeopleJobDegree[];

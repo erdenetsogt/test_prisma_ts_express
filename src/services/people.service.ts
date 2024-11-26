@@ -3,43 +3,48 @@ import {
   People
 } from '../types/people.types';
 import { create } from 'domain';
+import { createPeopleSchema } from '../schema/peopleSchema';
 const prisma = new PrismaClient();
 export class PeopleService {
   async create(people: People) {
     try {
-
+      
+      const validationPeople = createPeopleSchema.parse(people);
+      
       const createdPerson = await prisma.people.create({
         data: {
 
-          firstName: people.firstName,
-          lastName: people.lastName,
-          register: people.register,
-          birthday: people.birthday,
-          birthcityId: people.birthcityId,
-          genderId: people.genderId,
-          ovog: people.ovog,
-          nationalId: people.nationalId,
-          address: people.address ? {
-            create: {
-              // sumId: people.address?.sumId,
-              // provinceId: people.address?.provinceId,
-              homeaddress: people.address?.homeaddress,
-              mobile: people.address?.mobile,
-              fax: people.address?.fax,
-              email: people.address?.email,
-              postAddress: people.address?.postAddress,
-              contactPerson: people.address?.contactPerson,
-              contactMobile: people.address?.contactMobile,
-            }
-
-          }:undefined
-        },
-        include: {
-          address: true
-          sum: true
-          province: true
-        }
+          firstName: validationPeople.firstName,
+          lastName: validationPeople.lastName,
+          register: validationPeople.register,
+          birthday: validationPeople.birthday,
+          birthcityId: validationPeople.birthcityId,
+          genderId: validationPeople.genderId,
+          ovog: validationPeople.ovog,
+          nationalId: validationPeople.nationalId,         
+        },        
       });
+
+       
+      const findsumid = await prisma.sum.findUnique({where: {id: people.address?.sumId ?? undefined}})
+      const findprovinceid = await prisma.province.findUnique({where: {id: people.address?.provinceId ?? undefined}})
+       
+      const createPeopleAddress = await prisma.peopleAddress.create({
+        data: {
+          peopleId: createdPerson.id,
+          sumId: people.address?.sumId,
+          provinceId: people.address?.provinceId,
+          homeaddress: people.address?.homeaddress,
+          mobile: people.address?.mobile,
+          fax: people.address?.fax,
+          email: people.address?.email,
+          postAddress: people.address?.postAddress,
+          contactPerson: people.address?.contactPerson,
+          contactMobile: people.address?.contactMobile,
+        }
+      })
+
+
       return createdPerson;
     } catch (error) {
       console.error('Error in people.create:', error);
