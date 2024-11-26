@@ -23,13 +23,25 @@ export const updatePeopleSchema = z.object({
     nationalId: z.number().int().positive('National ID must be positive'),
 });
 export const createPeopleAddressSchema = z.object({
+    //peopleId: z.number().int().positive(),
     homeaddress: z.string().min(1, 'Home address is required'),
     mobile: z.string().min(8, 'Mobile number must be at least 8 characters'),        
     fax:z.string().min(8, 'Fax number must be at least 8 characters'),       
     email: z.string().min(1, 'Email is required').email('Invalid email format'),
     postAddress: z.string().min(1, 'Post address is required'),
-    contactPerson: z.string().min(1, 'Contact person is required'),
-    contactMobile: z.string().min(8, 'Contact mobile number must be at least 8 characters'),
+    sumId: z.number().int().positive(),
+    provinceId: z.number().int().positive(),
+        
+    
+    
+})
+export const sumSchema = z.object({
+    id:z.number().int().positive(),
+    value:z.string().min(1, 'Sum is required'),
+})
+export const provinceSchema = z.object({
+    id:z.number().int().positive(),
+    value:z.string().min(1, 'Provice is required'),
 })
 export const createPeopleContactSchema = z.object({
     contactId: z.number().int().positive(),

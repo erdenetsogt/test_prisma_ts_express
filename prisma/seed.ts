@@ -1,6 +1,12 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
+import countryData from './contries.json'
 import provinceData from './province.json'
+import nationalData from './national.json'
+import relationData from './relation.json'
+import genderData from './gender.json'
+import languageData from './language.json'
+
 import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt';
 import { AuthService } from '../src/services/auth.service';
@@ -37,6 +43,11 @@ async function main() {
     prisma.people.deleteMany(),
     prisma.sum.deleteMany(),
     prisma.province.deleteMany(),
+    prisma.relation.deleteMany(),
+    prisma.national.deleteMany(),
+    prisma.gender.deleteMany(),
+    prisma.language.deleteMany(),
+    prisma.country.deleteMany()
   ])
 
   // Create base data
@@ -55,12 +66,61 @@ async function main() {
     })
   }
 
+
+  for(const country of countryData.countries){
+    await prisma.country.create({
+      data: {
+        id: country.id,
+        value: country.value,        
+      }
+    })
+  }
+
+  for(const national of nationalData.nationals){
+    await prisma.national.create({
+      data: {
+        id: national.id,
+        value: national.value,        
+      }
+    })
+  }
+  for(const language of languageData.languages){
+    await prisma.language.create({
+      data: {
+        id: language.id,
+        value: language.value,        
+      }
+    })
+  }
+  for(const gender of genderData.genders){
+    await prisma.gender.create({
+      data: {
+        id: gender.id,
+        value: gender.value,        
+      }
+    })
+  }
+  for(const relation of relationData.relations){
+    await prisma.relation.create({
+      data: {
+        id: relation.id,
+        value: relation.value,        
+      }
+    })
+  }
+ 
+
   const province = await prisma.province.findFirst({
     where: { value: 'Улаанбаатар' }
   })
+
   const sum = await prisma.sum.findFirst({
     where: { value: 'Баянзүрх' }
   })
+
+  
+  
+
 
   // Create a person
   const person = await prisma.people.create({
@@ -219,7 +279,12 @@ async function main() {
       }
     }
   })
-
+  const sensorObjectId = await prisma.sensorObject.findFirst({
+    where: {
+      name: 'Room Temperature Sensor',
+      description: 'Main office room temperature sensor'
+    }
+  })
   const measurementObject = await prisma.measurementObject.create({
     data: {
       name: 'Main Office',
@@ -232,7 +297,7 @@ async function main() {
   await prisma.measurementSensorObject.create({
     data: {
       measurmentObjectId: measurementObject.id,
-      sensorObjectId: 1,
+      sensorObjectId: sensorObjectId!.id,
       companyId: company.id
     }
   })

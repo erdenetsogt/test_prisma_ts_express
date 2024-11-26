@@ -135,8 +135,6 @@ CREATE TABLE `peopleAddresses` (
     `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `peopleAddresses_peopleId_key`(`peopleId`),
-    UNIQUE INDEX `peopleAddresses_sumId_key`(`sumId`),
-    UNIQUE INDEX `peopleAddresses_provinceId_key`(`provinceId`),
     UNIQUE INDEX `peopleAddresses_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -366,6 +364,7 @@ CREATE TABLE `userRoles` (
 CREATE TABLE `roles` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
+    `permissions` JSON NOT NULL,
     `companyId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -543,12 +542,6 @@ ALTER TABLE `doors` ADD CONSTRAINT `doors_companyId_fkey` FOREIGN KEY (`companyI
 
 -- AddForeignKey
 ALTER TABLE `peopleAddresses` ADD CONSTRAINT `peopleAddresses_peopleId_fkey` FOREIGN KEY (`peopleId`) REFERENCES `people`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `peopleAddresses` ADD CONSTRAINT `peopleAddresses_sumId_fkey` FOREIGN KEY (`sumId`) REFERENCES `sums`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `peopleAddresses` ADD CONSTRAINT `peopleAddresses_provinceId_fkey` FOREIGN KEY (`provinceId`) REFERENCES `provinces`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `peopleComputers` ADD CONSTRAINT `peopleComputers_peopleId_fkey` FOREIGN KEY (`peopleId`) REFERENCES `people`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

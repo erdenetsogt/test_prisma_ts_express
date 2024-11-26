@@ -1,107 +1,122 @@
 import { z } from 'zod';
 
 // Base interfaces for related models
-interface sum {
+type sum = {
+  connect?: {
+    id: number
+  }
+
+}
+type province = {
+  connect?: {
+    id: number
+  }
+}
+type gender = {
   id: number;
   value: string;
+}
+type PeopleAddress = {  //id:            number;
+  sumId: number;
   provinceId: number;
-
-}
-interface province {
-  id: number;
-  value: string;
-  sum?: sum[];
-}
-interface gender{
-  id: number;
-  value: string;
-}
-interface PeopleAddress {
-  //id:            number;
-
-  peopleId:      number;
-  sumId:         number;
-  provinceId:    number;
   homeaddress?: string;
   mobile?: string;
   fax?: string;
   email?: string;
   postAddress?: string;
-  contactPerson?: string;
-  contactMobile?: string;
+  //people: PeopleCreateNestedOne;
 }
-
-interface PeopleComputer {
+type PeopleAddressNestedWithOutPeopleId = {
+  create?: {
+    sumId: sum;
+    provinceId: province;
+    homeaddress?: string;
+    mobile?: string;
+    fax?: string;
+    email?: string;
+    postAddress?: string;
+  };
+  connect?: {
+    peopleId: number,
+    
+  };
+}
+type PeopleComputer = {
   //id:number;
   peopleId: number;
   skillId: number;
   vote: number;
 }
 
-interface PeopleContact {
+type PeopleContact = {
   //id: number;
   peopleId: number;
   contactId: number;
   value: string;
-
+  people: PeopleCreateNestedOne;
   // Add other contact fields
 }
-interface PeopleDoctor {
+type PeopleDoctor = {
   //id:number;
-  peopleId: number;
+  
   degree: string;
   place: string;
   date: string;
   cerf: string;
-
+  people: PeopleCreateNestedOne;
   // Add other doctor fields
 }
-interface PeopleEducation {
+type PeopleEducation = {
   //id: number;
-  peopleId: number;
+  
   school: string;
   startDate: string;
   end: string;
   cerf: string;
+  people: PeopleCreateNestedOne;
   // Add other education fields
 }
 
-interface PeopleJobDegree {
+type PeopleJobDegree = {
   //id: number;
-  peopleId: number;
+  //peopleId: number;
   degree: string;
   organization: string;
   date: string;
   cerf: string;
+  people: PeopleCreateNestedOne;
   // Add other job degree fields
 }
 
-interface PeopleJobLevel {
+type PeopleJobLevel = {
   //id: number;
   peopleId: number;
   name: string
   degree: string;
   more: string;
   cerf: string;
+  people: PeopleCreateNestedOne;
   // Add other job level fields
 }
-interface PeopleLanguage {
+type PeopleLanguage = {
   //id: number;
   peopleId: number;
   languageId: number;
   skillId: number;
   vote: number;
+  people: PeopleCreateNestedOne;
   // Add other language fields
 }
 
-interface PeopleRelation {
+type PeopleRelation = {
   //id:number;
   peopleId: number;
   relationId: number;
   name: number;
   brithplace: string;
   work: string;
-  type: number
+  type: number;
+  people: PeopleCreateNestedOne;
   // Add other relation fields
 }
 
@@ -111,16 +126,16 @@ interface PeopleRelation {
 
 
 
-interface PeopleTalent {
+type PeopleTalent = {
   //id: number;
   peopleId: number;
   talentId: number;
   vote: number;
-
+  people: PeopleCreateNestedOne;
   // Add other talent fields
 }
 
-interface PeopleJobEduction {
+type PeopleJobEduction = {
   //id:number;
   peopleId: number;
   organization: string;
@@ -128,13 +143,13 @@ interface PeopleJobEduction {
   duration: number;
   label: string;
   cerf: string;
+  people: PeopleCreateNestedOne;
   // Add other job education fields
 }
 
 
-
-// Main People interface
-export interface People {
+// Main People type
+export type PeopleCreateInput = {
 
   firstName: string;
   lastName: string;
@@ -170,6 +185,16 @@ export interface People {
   jobEduction?: PeopleJobEduction[];
 
 }
-
+export type PeopleCreateNestedOne = {
+  firstName: string;
+  lastName: string;
+  register: string;
+  birthday: string;
+  birthcityId: number;
+  genderId: number;
+  ovog: string;
+  nationalId: number;
+  address?: PeopleAddressNestedWithOutPeopleId;
+}
 // Zod schema for validation
 

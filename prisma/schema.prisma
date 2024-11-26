@@ -104,30 +104,31 @@ model Origin {
 }
 
 model People {
-  id                Int                 @id @default(autoincrement())
-  firstName         String
-  lastName          String
-  register          String
-  birthday          String
-  birthcityId       Int
-  genderId          Int
-  ovog              String
-  nationalId        Int
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  address           PeopleAddress?
-  contact           PeopleContact?
-  education         PeopleEducation[]
-  jobDegree         PeopleJobDegree[]
-  jobLevel          PeopleJobLevel[]
-  relation          PeopleRelation[]
-  language          PeopleLanguage[]
-  computer          PeopleComputer[]
-  PeopleDoctor      PeopleDoctor[]
-  PeopleTalent      PeopleTalent[]
-  PeopleJobEduction PeopleJobEduction[]
-  User              User[]
-  Employee          Employee[]
+  id          Int                 @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  register    String
+  birthday    String
+  birthcityId Int
+  genderId    Int
+  ovog        String
+  nationalId  Int
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  address     PeopleAddress?
+  contact     PeopleContact?
+  education   PeopleEducation[]
+  jobDegree   PeopleJobDegree[]
+  jobLevel    PeopleJobLevel[]
+  relation    PeopleRelation[]
+  language    PeopleLanguage[]
+  computer    PeopleComputer[]
+  doctor      PeopleDoctor[]
+  talent      PeopleTalent[]
+  jobEduction PeopleJobEduction[]
+
+  User     User[]
+  Employee Employee[]
 
   @@map("people")
 }
@@ -135,8 +136,8 @@ model People {
 model PeopleAddress {
   id            Int      @id @default(autoincrement())
   peopleId      Int      @unique
-  sumId         Int      @unique
-  provinceId    Int      @unique
+  sumId         Int
+  provinceId    Int
   homeaddress   String?
   mobile        String?
   fax           String?
@@ -147,8 +148,8 @@ model PeopleAddress {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   people        People   @relation(fields: [peopleId], references: [id])
-  sum           Sum      @relation(fields: [sumId], references: [id])
-  province      Province @relation(fields: [provinceId], references: [id])
+  //sum      Sum      @relation(fields: [sumId], references: [id])
+  //province Province @relation(fields: [provinceId], references: [id])
 
   @@map("peopleAddresses")
 }
@@ -287,20 +288,20 @@ model PeopleJobEduction {
 }
 
 model Province {
-  id            Int            @id @default(autoincrement())
-  value         String?
-  sums          Sum[]
-  PeopleAddress PeopleAddress?
+  id    Int     @id @default(autoincrement())
+  value String?
+  sums  Sum[]
+  //PeopleAddress PeopleAddress?
 
   @@map("provinces")
 }
 
 model Sum {
-  id            Int            @id @default(autoincrement())
-  value         String?
-  provinceId    Int?
-  province      Province?      @relation(fields: [provinceId], references: [id])
-  PeopleAddress PeopleAddress?
+  id         Int       @id @default(autoincrement())
+  value      String?
+  provinceId Int?
+  province   Province? @relation(fields: [provinceId], references: [id])
+  //PeopleAddress PeopleAddress?
 
   @@map("sums")
 }
