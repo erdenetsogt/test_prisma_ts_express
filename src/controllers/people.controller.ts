@@ -3,7 +3,7 @@ import e, { Request, Response } from 'express'
 import { Prisma } from '@prisma/client'
 import { PeopleService } from '../services/people.service'
 import { z } from 'zod'
-import { People } from '../types/people.types'
+import { PeopleCreateInput } from '../types/people.types'
 
 const prisma = new PrismaClient()
 const peopleService = new PeopleService()
@@ -19,7 +19,7 @@ export class PeopleController {
     }
     static async update(req: Request, res: Response) {
         try {
-            const defunt: People = req.body
+            //const defunt: PeopleCreateInput = req.body
 
             const updatedPerson = await peopleService.update(Number(req.params.id), req.body)
             res.status(201).send(updatedPerson)
@@ -47,13 +47,5 @@ export class PeopleController {
         }
 
     }
-    static async test(req: Request, res: Response) {
-        try {       
-            const defunt: People = req.body   
-            console.log("req.body")
-            res.status(201).json(req.body)
-        } catch (error) {
-            res.status(400).json({ error: 'error', details: error })
-        }
-    }
+   
 }

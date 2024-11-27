@@ -24,6 +24,8 @@ type PeopleAddress = {  //id:            number;
   fax?: string;
   email?: string;
   postAddress?: string;
+  contactPerson: string;
+  contaceMobile: string;
   //people: PeopleCreateNestedOne;
 }
 type PeopleAddressNestedWithOutPeopleId = {

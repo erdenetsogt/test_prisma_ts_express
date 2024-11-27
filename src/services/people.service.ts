@@ -3,31 +3,15 @@ import {
   PeopleCreateInput
 } from '../types/people.types';
 import { create } from 'domain';
-import { createPeopleSchema, createPeopleAddressSchema,sumSchema,provinceSchema } from '../schema/peopleSchema';
+import { createPeopleSchema, createPeopleAddressSchema, createPeopleContactSchema, sumSchema, provinceSchema } from '../schema/peopleSchema';
 import { connect } from 'http2';
 const prisma = new PrismaClient();
 export class PeopleService {
-  async create(validationPeople: PeopleCreateInput) {
+  async create(people: PeopleCreateInput) {
     try {
-
-      //const validationPeople = createPeopleSchema.parse(people);
-      //const validationPeopleAddress = createPeopleAddressSchema.parse(people.address);
-      //const validationSum =  sumSchema.parse(people.address?.sum);//sumSchema
-      //const validationProvice =  provinceSchema.parse(people.address?.province);//sumSchema
-      
-      
-      // const sum = await prisma.sum.findUnique({
-      //   where: {
-      //     id: validationPeople.address!.sumId
-      //   }
-      // })
-      // const province = await prisma.province.findUnique({
-      //   where: {
-      //     id: validationPeople.address!.provinceId
-      //   }
-      // })
-      console.log(validationPeople)
-      
+      const validationPeople = await createPeopleSchema.parseAsync(people);
+      const validationAddress = await createPeopleAddressSchema.parseAsync(people.address);
+      const validationContact = await createPeopleContactSchema.parseAsync(people.contact);
       const createdPerson = await prisma.people.create({
         data: {
 
@@ -41,33 +25,46 @@ export class PeopleService {
           nationalId: validationPeople.nationalId,
 
           address: {
-            create: {  
-              provinceId: validationPeople.address?.provinceId!,            
-              sumId:validationPeople.address?.sumId!,              
-              homeaddress: validationPeople.address!.homeaddress,
-              mobile: validationPeople.address!.mobile,
-              fax: validationPeople.address!.fax,
-              email: validationPeople.address!.email,
-              postAddress: validationPeople.address!.postAddress,
+            create: {
+              provinceId: validationAddress?.provinceId!,
+              sumId: validationAddress?.sumId!,
+              homeaddress: validationAddress!.homeaddress,
+              mobile: validationAddress!.mobile,
+              fax: validationAddress!.fax,
+              email: validationAddress!.email,
+              postAddress: validationAddress!.postAddress,
             }
-          }
-        },
-        
+          },
+          contact: {
+            create: {
+              contactId: validationContact!.contactId,
+              value: validationContact!.value,
+            }
+          },
+        }
       });
-      console.log("createdPerson",createdPerson.id);
-      
 
 
-      return createdPerson;
+
+
+
+      return await this.getById(createdPerson.id);
     } catch (error) {
       console.error('Error in people.create:', error);
       throw error;
     }
   }
 
+  
   async getById(id: number) {
     try {
-      const person = await prisma.people.findUnique({ where: { id } });
+      const person = await prisma.people.findUnique({
+        where: { id },
+        include: {
+          address: true,
+          contact: true
+        }
+      });
       return person;
     } catch (error) {
       console.error('Error in people.getById:', error);
@@ -75,10 +72,57 @@ export class PeopleService {
     }
   }
   async update(id: number, people: PeopleCreateInput) {
+    const validationPeople = createPeopleSchema.parse(people);
+    const validationAddress = createPeopleAddressSchema.parse(people.address);
+    const validationContact = createPeopleContactSchema.parse(people.contact);
     try {
       const updatedPerson = await prisma.people.update({
         where: { id },
-        data: people,
+        data: {
+          ...validationPeople,
+          address: validationAddress
+            ? {
+              upsert: {
+                create: {
+                  provinceId: validationAddress?.provinceId!,
+                  sumId: validationAddress?.sumId!,
+                  homeaddress: validationAddress!.homeaddress,
+                  mobile: validationAddress!.mobile,
+                  fax: validationAddress!.fax,
+                  email: validationAddress!.email,
+                  postAddress: validationAddress!.postAddress,
+                },
+
+                update: {
+                  provinceId: validationAddress?.provinceId!,
+                  sumId: validationAddress?.sumId!,
+                  homeaddress: validationAddress!.homeaddress,
+                  mobile: validationAddress!.mobile,
+                  fax: validationAddress!.fax,
+                  email: validationAddress!.email,
+                  postAddress: validationAddress!.postAddress,
+                }
+              },
+            } : undefined,
+          contact: validationContact ?{
+            upsert: {
+              create: {
+                contactId: validationContact!.contactId,
+                value: validationContact!.value,
+              },
+              update: {
+                contactId: validationContact!.contactId,
+                value: validationContact!.value,
+              }
+            }
+          }:undefined,
+          
+
+        },
+        include: {
+          address: true,
+          contact: true
+        }
       });
       return updatedPerson;
     } catch (error) {
@@ -97,7 +141,12 @@ export class PeopleService {
   }
   async getAll() {
     try {
-      const people = await prisma.people.findMany();
+      const people = await prisma.people.findMany({
+        include: {
+          address: true,
+          contact: true
+        }
+      });
       return people;
     } catch (error) {
       console.error('Error in people.getAll:', error);
