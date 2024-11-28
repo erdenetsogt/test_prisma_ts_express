@@ -28,21 +28,6 @@ type PeopleAddress = {  //id:            number;
   contaceMobile: string;
   //people: PeopleCreateNestedOne;
 }
-type PeopleAddressNestedWithOutPeopleId = {
-  create?: {
-    sumId: sum;
-    provinceId: province;
-    homeaddress?: string;
-    mobile?: string;
-    fax?: string;
-    email?: string;
-    postAddress?: string;
-  };
-  connect?: {
-    peopleId: number,
-    
-  };
-}
 type PeopleComputer = {
   //id:number;
   peopleId: number;
@@ -55,7 +40,6 @@ type PeopleContact = {
   peopleId: number;
   contactId: number;
   value: string;
-  people: PeopleCreateNestedOne;
   // Add other contact fields
 }
 type PeopleDoctor = {
@@ -65,7 +49,6 @@ type PeopleDoctor = {
   place: string;
   date: string;
   cerf: string;
-  people: PeopleCreateNestedOne;
   // Add other doctor fields
 }
 type PeopleEducation = {
@@ -75,7 +58,6 @@ type PeopleEducation = {
   startDate: string;
   end: string;
   cerf: string;
-  people: PeopleCreateNestedOne;
   // Add other education fields
 }
 
@@ -86,7 +68,7 @@ type PeopleJobDegree = {
   organization: string;
   date: string;
   cerf: string;
-  people: PeopleCreateNestedOne;
+  //people: PeopleCreateNestedOne;
   // Add other job degree fields
 }
 
@@ -97,7 +79,6 @@ type PeopleJobLevel = {
   degree: string;
   more: string;
   cerf: string;
-  people: PeopleCreateNestedOne;
   // Add other job level fields
 }
 type PeopleLanguage = {
@@ -106,7 +87,6 @@ type PeopleLanguage = {
   languageId: number;
   skillId: number;
   vote: number;
-  people: PeopleCreateNestedOne;
   // Add other language fields
 }
 
@@ -115,37 +95,28 @@ type PeopleRelation = {
   peopleId: number;
   relationId: number;
   name: number;
-  brithplace: string;
+  birthplace: string;
   work: string;
   type: number;
-  people: PeopleCreateNestedOne;
   // Add other relation fields
 }
-
-
-
-
-
-
-
 type PeopleTalent = {
-  //id: number;
+  //  id: number;
   peopleId: number;
   talentId: number;
   vote: number;
-  people: PeopleCreateNestedOne;
   // Add other talent fields
 }
 
-type PeopleJobEduction = {
-  //id:number;
+type PeopleJobEducation = {
+  
   peopleId: number;
   organization: string;
-  startDate: string;
+  start: string;
   duration: number;
   label: string;
   cerf: string;
-  people: PeopleCreateNestedOne;
+  //people: PeopleCreateNestedOne;
   // Add other job education fields
 }
 
@@ -160,20 +131,8 @@ export type PeopleCreateInput = {
   birthcityId: number;
   genderId: number;
   ovog: string;
-  nationalId: number;
-  //createdAt: Date;
-  //updatedAt: Date;
-  // address?: {    
-  //   sumId?: number;
-  //   provinceId?: number;
-  //   homeaddress?: string;
-  //   mobile?: string;
-  //   fax?: string;
-  //   email?: string;
-  //   postAddress?: string;
-  //   contactPerson?: string;
-  //   contactMobile?: string;
-  // };
+  nationalId: number;  
+
   address?: PeopleAddress;
   contact?: PeopleContact;
   education?: PeopleEducation[];
@@ -184,19 +143,9 @@ export type PeopleCreateInput = {
   computer?: PeopleComputer[];
   doctor?: PeopleDoctor[];
   talent?: PeopleTalent[];
-  jobEduction?: PeopleJobEduction[];
+  jobEducation?: PeopleJobEducation[];
 
 }
-export type PeopleCreateNestedOne = {
-  firstName: string;
-  lastName: string;
-  register: string;
-  birthday: string;
-  birthcityId: number;
-  genderId: number;
-  ovog: string;
-  nationalId: number;
-  address?: PeopleAddressNestedWithOutPeopleId;
-}
+
 // Zod schema for validation
 

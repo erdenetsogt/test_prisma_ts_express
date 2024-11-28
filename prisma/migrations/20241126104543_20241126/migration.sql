@@ -264,7 +264,7 @@ CREATE TABLE `peopleTalents` (
 CREATE TABLE `peopleJobEducation` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `peopleId` INTEGER NOT NULL,
-    `organizatin` VARCHAR(191) NOT NULL,
+    `organization` VARCHAR(191) NOT NULL,
     `start` DATETIME(3) NOT NULL,
     `duration` INTEGER NOT NULL,
     `label` VARCHAR(191) NOT NULL,

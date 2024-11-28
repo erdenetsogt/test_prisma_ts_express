@@ -125,7 +125,7 @@ model People {
   computer    PeopleComputer[]
   doctor      PeopleDoctor[]
   talent      PeopleTalent[]
-  jobEduction PeopleJobEduction[]
+  jobEducation PeopleJobEducation[]
 
   User     User[]
   Employee Employee[]
@@ -274,10 +274,10 @@ model PeopleTalent {
   @@map("peopleTalents")
 }
 
-model PeopleJobEduction {
+model PeopleJobEducation {
   id          Int      @id @default(autoincrement())
   peopleId    Int
-  organizatin String
+  organization String
   start       DateTime
   duration    Int
   label       String

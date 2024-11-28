@@ -122,7 +122,7 @@ export class PeopleController {
           computer: true,
           PeopleDoctor: true,
           PeopleTalent: true,
-          PeopleJobEduction: true,
+          PeopleJobEducation: true,
         },
       });
 

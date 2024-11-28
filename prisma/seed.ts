@@ -29,7 +29,7 @@ async function main() {
     prisma.role.deleteMany(),
     prisma.user.deleteMany(),
     prisma.company.deleteMany(),
-    prisma.peopleJobEduction.deleteMany(),
+    prisma.peopleJobEducation.deleteMany(),
     prisma.peopleTalent.deleteMany(),
     prisma.peopleDoctor.deleteMany(),
     prisma.peopleLanguage.deleteMany(),
