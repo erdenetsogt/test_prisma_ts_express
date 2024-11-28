@@ -2,9 +2,12 @@ import { PrismaClient } from '@prisma/client';
 import {
   PeopleCreateInput
 } from '../types/people.types';
-import { create } from 'domain';
-import { createPeopleSchema, createPeopleAddressSchema, createPeopleContactSchema, sumSchema, provinceSchema } from '../schema/peopleSchema';
-import { connect } from 'http2';
+import {
+  createPeopleSchema,
+  createPeopleAddressSchema,
+  createPeopleContactSchema,
+} from '../schema/peopleSchema';
+
 const prisma = new PrismaClient();
 export class PeopleService {
   async create(people: PeopleCreateInput) {
@@ -33,6 +36,8 @@ export class PeopleService {
               fax: validationAddress!.fax,
               email: validationAddress!.email,
               postAddress: validationAddress!.postAddress,
+              contactMobile: validationAddress!.contactMobile,
+              contactPerson: validationAddress!.contactPerson
             }
           },
           contact: {
@@ -43,11 +48,6 @@ export class PeopleService {
           },
         }
       });
-
-
-
-
-
       return await this.getById(createdPerson.id);
     } catch (error) {
       console.error('Error in people.create:', error);
@@ -55,7 +55,7 @@ export class PeopleService {
     }
   }
 
-  
+
   async getById(id: number) {
     try {
       const person = await prisma.people.findUnique({
@@ -91,6 +91,8 @@ export class PeopleService {
                   fax: validationAddress!.fax,
                   email: validationAddress!.email,
                   postAddress: validationAddress!.postAddress,
+                  contactMobile: validationAddress!.contactMobile,
+                  contactPerson: validationAddress!.contactPerson
                 },
 
                 update: {
@@ -101,10 +103,12 @@ export class PeopleService {
                   fax: validationAddress!.fax,
                   email: validationAddress!.email,
                   postAddress: validationAddress!.postAddress,
+                  contactMobile: validationAddress!.contactMobile,
+                  contactPerson: validationAddress!.contactPerson
                 }
               },
             } : undefined,
-          contact: validationContact ?{
+          contact: validationContact ? {
             upsert: {
               create: {
                 contactId: validationContact!.contactId,
@@ -115,8 +119,8 @@ export class PeopleService {
                 value: validationContact!.value,
               }
             }
-          }:undefined,
-          
+          } : undefined,
+
 
         },
         include: {

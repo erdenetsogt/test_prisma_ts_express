@@ -31,6 +31,8 @@ export const createPeopleAddressSchema = z.object({
     postAddress: z.string().min(1, 'Post address is required'),
     sumId: z.number().int().positive(),
     provinceId: z.number().int().positive(),
+    contactPerson: z.string().min(1, 'Contact person is required'),
+    contactMobile: z.string().min(8, 'Contact mobile number must be at least 8 characters'),
 })
 export const createPeopleContactSchema = z.object({
     //peopleId: z.number().int().positive(),
