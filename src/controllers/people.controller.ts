@@ -1,9 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import e, { Request, Response } from 'express'
-import { Prisma } from '@prisma/client'
 import { PeopleService } from '../services/people.service'
-import { z } from 'zod'
-import { PeopleCreateInput } from '../types/people.types'
+
 
 const prisma = new PrismaClient()
 const peopleService = new PeopleService()

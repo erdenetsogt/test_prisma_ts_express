@@ -528,11 +528,11 @@ CREATE TABLE `measurementObjects` (
 -- CreateTable
 CREATE TABLE `measurementSensorObject` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `measurmentObjectId` INTEGER NOT NULL,
+    `measurementObjectId` INTEGER NOT NULL,
     `sensorObjectId` INTEGER NOT NULL,
     `companyId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `measurementSensorObject_measurmentObjectId_key`(`measurmentObjectId`),
+    UNIQUE INDEX `measurementSensorObject_measurementObjectId_key`(`measurementObjectId`),
     UNIQUE INDEX `measurementSensorObject_sensorObjectId_key`(`sensorObjectId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -625,7 +625,7 @@ ALTER TABLE `sensorObjects` ADD CONSTRAINT `sensorObjects_sensorId_fkey` FOREIGN
 ALTER TABLE `sensorObjectValues` ADD CONSTRAINT `sensorObjectValues_sensorObjectId_fkey` FOREIGN KEY (`sensorObjectId`) REFERENCES `sensorObjects`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `measurementSensorObject` ADD CONSTRAINT `measurementSensorObject_measurmentObjectId_fkey` FOREIGN KEY (`measurmentObjectId`) REFERENCES `measurementObjects`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `measurementSensorObject` ADD CONSTRAINT `measurementSensorObject_measurementObjectId_fkey` FOREIGN KEY (`measurementObjectId`) REFERENCES `measurementObjects`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `measurementSensorObject` ADD CONSTRAINT `measurementSensorObject_sensorObjectId_fkey` FOREIGN KEY (`sensorObjectId`) REFERENCES `sensorObjects`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

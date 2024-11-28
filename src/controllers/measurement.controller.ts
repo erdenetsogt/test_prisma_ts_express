@@ -1,17 +1,13 @@
 import { PrismaClient } from '@prisma/client'
 import e, { Request, Response } from 'express'
-import { Prisma } from '@prisma/client'
-import { MeasurementService } from '../services/people.service'
-import { z } from 'zod'
-import { MeasurementCreateInput } from '../types/measurement.types'
+import { SensorMeasurementObjectService } from '../services/mesurement.service'
 
-const prisma = new PrismaClient()
-const measureentService = new MeasurementService()
-export class PeopleController {
+const measurementService = new SensorMeasurementObjectService()
+export class MeasurementController {
     static async create(req: Request, res: Response) {
         try {
-            const createdPerson = await measureentService.create(req.body)
-            res.status(201).send(createdPerson)
+            const created = await measurementService.create(req.body)
+            res.status(201).send(created)
         } catch (error) {
             res.status(400).json({ error: 'error', details: error })
 
@@ -21,7 +17,7 @@ export class PeopleController {
         try {
             //const defunt: PeopleCreateInput = req.body
 
-            const updatedPerson = await measureentService.update(Number(req.params.id), req.body)
+            const updatedPerson = await measurementService.update(Number(req.params.id), req.body)
             res.status(201).send(updatedPerson)
         } catch (error) {
             res.status(400).json({ error: 'error', details: error })
@@ -31,7 +27,7 @@ export class PeopleController {
     }
     static async getById(req: Request, res: Response) {
         try {
-            const person = await measureentService.getById(Number(req.params.id))
+            const person = await measurementService.getById(Number(req.params.id))
             res.status(201).json(person)
         } catch (error) {
             res.status(400).json({ error: 'error', details: error })
@@ -40,7 +36,7 @@ export class PeopleController {
     }
     static async getAll(req: Request, res: Response) {
         try {
-            const people = await measureentService.getAll()
+            const people = await measurementService.getAll(Number(req.params.companyId))
             res.status(201).json(people)
         } catch (error) {
             res.status(400).json({ error: 'error', details: error })

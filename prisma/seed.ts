@@ -296,7 +296,7 @@ async function main() {
 
   await prisma.measurementSensorObject.create({
     data: {
-      measurmentObjectId: measurementObject.id,
+      measurementObjectId: measurementObject.id,
       sensorObjectId: sensorObjectId!.id,
       companyId: company.id
     }

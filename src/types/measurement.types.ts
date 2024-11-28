@@ -5,17 +5,18 @@ export type measurmentSensorObject = {
 }
 type measurmentObject = {
   id: number,
-  name: string,
-  sensorObjects: measurmentSensorObject[]
+  name?: string,  
+  description?: string,
+  companyId?: number,  
 }
 
 type sensorObject = {
   id: number,
-  name: string,
-  description: string,
-  companyId: number,
-  sensor: sensor
-  sensorObjectValues: sensorObjectValue[]
+  name?: string,
+  description?: string,
+  companyId?: number,
+  sensor?: sensor
+  //sensorObjectValue: sensorObjectValue[]
 }
 
 type sensorObjectValue = {
@@ -27,11 +28,11 @@ type sensorObjectValue = {
 
 type sensor = {
   id: number,
-  model: string,
-  brand: string,
-  range: string,
-  sensorType: sensorType,
-  
+  model?: string,
+  brand?: string,
+  range?: string,
+  sensorType?: sensorType,
+  companyId?: number,
 }
 type sensorType = {
   id: number,

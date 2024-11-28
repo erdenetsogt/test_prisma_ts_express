@@ -431,8 +431,7 @@ model Company {
   name        String       @unique
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  doors       Door[]
-  sensors     Sensor[]
+  doors       Door[]  
   departments Department[]
   User        User[]
 
@@ -488,8 +487,7 @@ model Sensor {
   brand        String
   range        String?
   sensorType   SensorType?   @relation(fields: [sensorTypeId], references: [id])
-  sensorTypeId Int?
-  company      Company?      @relation(fields: [companyId], references: [id])
+  sensorTypeId Int?  
   companyId    Int?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -546,10 +544,10 @@ model MeasurementObject {
 
 model MeasurementSensorObject {
   id                 Int               @id @default(autoincrement())
-  measurmentObjectId Int               @unique
+  measurementObjectId Int               @unique
   sensorObjectId     Int               @unique
   companyId          Int
-  measurementObject  MeasurementObject @relation(fields: [measurmentObjectId], references: [id])
+  measurementObject  MeasurementObject @relation(fields: [measurementObjectId], references: [id])
   sensorObject       SensorObject      @relation(fields: [sensorObjectId], references: [id])
 
   @@map("measurementSensorObject")
