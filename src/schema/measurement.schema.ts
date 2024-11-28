@@ -38,6 +38,7 @@ export const sensorMeasurementObjectCreateSchema = z.object({
   // sensorObject: sensorObjectCreateSchema.optional(),
   measurementObjectId: z.number().int().positive(),
   sensorObjectId: z.number().int().positive(),
+  companyId: z.number().positive(),
 });
 export const measurementObjectUpdateSchema = sensorMeasurementObjectCreateSchema.partial()
 export type MeasurementObjectCreateInput = z.infer<typeof sensorMeasurementObjectCreateSchema>;

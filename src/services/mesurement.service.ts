@@ -20,12 +20,14 @@ export class SensorMeasurementObjectService {
       const validatedData = await sensorMeasurementObjectCreateSchema.parseAsync(measurmentSensorObjectData);
       const {
         sensorObjectId,
-        measurementObjectId
+        measurementObjectId,
+        companyId
       } = validatedData;
       const newMeasurementObject = await prisma.measurementSensorObject.create({
         data: {
           sensorObjectId: sensorObjectId,
-          measurementObjectId:measurementObjectId
+          measurementObjectId: measurementObjectId,
+          companyId: companyId
         },
       });
       return await newMeasurementObject;
