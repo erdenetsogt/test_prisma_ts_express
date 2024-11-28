@@ -2,9 +2,8 @@ import { z } from 'zod';
 
 // Base interfaces for related models
 type sum = {
-  connect?: {
-    id: number
-  }
+  id: number;
+  value: string;
 
 }
 type province = {
@@ -44,7 +43,7 @@ type PeopleContact = {
 }
 type PeopleDoctor = {
   //id:number;
-  
+
   degree: string;
   place: string;
   date: string;
@@ -53,7 +52,7 @@ type PeopleDoctor = {
 }
 type PeopleEducation = {
   //id: number;
-  
+
   school: string;
   startDate: string;
   end: string;
@@ -109,7 +108,7 @@ type PeopleTalent = {
 }
 
 type PeopleJobEducation = {
-  
+
   peopleId: number;
   organization: string;
   start: string;
@@ -131,7 +130,7 @@ export type PeopleCreateInput = {
   birthcityId: number;
   genderId: number;
   ovog: string;
-  nationalId: number;  
+  nationalId: number;
 
   address?: PeopleAddress;
   contact?: PeopleContact;

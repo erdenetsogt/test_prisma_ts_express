@@ -7,7 +7,7 @@ import {
   peopleUpdateSchema
   //createPeopleAddressSchema,
   //createPeopleContactSchema,
-} from '../schema/peopleSchema';
+} from '../schema/people.schema';
 
 const prisma = new PrismaClient();
 export class PeopleService {
