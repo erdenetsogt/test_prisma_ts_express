@@ -5,18 +5,23 @@ import {
   MeasurementObjectUpdateInput,
   measurementObjectCreateSchema,
   measurementObjectUpdateSchema,
-
+  sensorCreateSchema,
+  sensorUpdateSchema,
+  SensorCreateInput,
+  SensorUpdateInput,
   sensorMeasurementObjectCreateSchema,
   sensorMeasurementObjectUpdateSchema,
   SensorMeasurementObjectCreateInput,
   SensorMeasurementObjectUpdateInput
 } from "../schema/measurement.schema";
+import { connect } from "http2";
 
 const prisma = new PrismaClient();
 
 export class SensorMeasurementObjectService {
   async create(measurmentSensorObjectData: SensorMeasurementObjectCreateInput) {
     try {
+      
       const validatedData = await sensorMeasurementObjectCreateSchema.parseAsync(measurmentSensorObjectData);
       const {
         sensorObjectId,
@@ -83,5 +88,65 @@ export class SensorMeasurementObjectService {
       console.error('Error in people.update:', error);
       throw error;
     }
+  }
+}
+export class SensorService{
+  async create(sensorData: SensorCreateInput) {
+    try {
+      const validatedData = await sensorCreateSchema.parseAsync(sensorData);
+      const { sensorType,...sensor } = validatedData;
+      const newSensor = await prisma.sensor.create({
+        data: {          
+          model: sensor?.model,
+          brand: sensor?.brand,          
+          range: sensor?.range,
+          companyId: sensor?.companyId,
+          sensorType: sensorType?{
+            connect: {
+              id: sensorType.id
+            }
+          }:undefined
+        },
+      });
+      return await newSensor;
+    }catch (error) {
+      console.error('Error in people.create:', error);
+      throw error;
+    }
+  }
+  async update(id: number, sensorData: SensorUpdateInput) {
+    try {
+      const validatedData = await sensorUpdateSchema.parseAsync(sensorData);
+      const { sensorType,...sensor } = validatedData;
+      const updatedSensor = await prisma.sensor.update({
+        where: { id },
+        data: {
+          model: sensor?.model,
+          brand: sensor?.brand,          
+          range: sensor?.range,
+          companyId: sensor?.companyId,
+          sensorType: sensorType?{
+            connect: {
+              id: sensorType.id
+            }
+          }:undefined
+        },
+      });
+      return await updatedSensor;
+    }catch (error) {
+      console.error('Error in people.update:', error);
+      throw error;
+    }
+  }
+  async getAll() {
+    return prisma.sensor.findMany();
+  }
+  async getById(id: number) {
+    return prisma.sensor.findUnique({
+      where: { id },
+      include: {
+        sensorType: true
+      }
+    });
   }
 }

@@ -4,7 +4,9 @@ import { SensorMeasurementObjectService } from '../services/mesurement.service'
 
 const measurementService = new SensorMeasurementObjectService()
 export class MeasurementController {
-    static async create(req: Request, res: Response) {
+
+    ///////MeasurementSensorObject start//
+    static async createMeasurementSensorObject(req: Request, res: Response) {
         try {
             const created = await measurementService.create(req.body)
             res.status(201).send(created)
@@ -13,7 +15,7 @@ export class MeasurementController {
 
         }
     }
-    static async update(req: Request, res: Response) {
+    static async updateMeasurementSensorObject(req: Request, res: Response) {
         try {
             //const defunt: PeopleCreateInput = req.body
 
@@ -25,7 +27,7 @@ export class MeasurementController {
         }
 
     }
-    static async getById(req: Request, res: Response) {
+    static async getByIdMeasurementSensorObject(req: Request, res: Response) {
         try {
             const person = await measurementService.getById(Number(req.params.id))
             res.status(201).json(person)
@@ -34,7 +36,7 @@ export class MeasurementController {
         }
 
     }
-    static async getAll(req: Request, res: Response) {
+    static async getAllMeasurementSensorObject(req: Request, res: Response) {
         try {
             const people = await measurementService.getAll(Number(req.params.companyId))
             res.status(201).json(people)
@@ -43,5 +45,8 @@ export class MeasurementController {
         }
 
     }
+    ///end MeasurementSensorObject // 
+
+    
    
 }

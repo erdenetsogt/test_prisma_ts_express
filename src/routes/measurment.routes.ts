@@ -7,10 +7,13 @@ const router = express.Router();
 
 // Use the middleware with proper typing
 
-router.post('/login', MeasurementController.create);
-router.put('/register', MeasurementController.update);
-router.get('/logout', MeasurementController.getById);
-router.get('/refresh', MeasurementController.getAll);
+router.post('/measurement-sensor-object', MeasurementController.createMeasurementSensorObject);
+router.put('/measurement-sensor-object/:id', MeasurementController.updateMeasurementSensorObject);
+router.get('/measurement-sensor-object/:id', MeasurementController.getByIdMeasurementSensorObject);
+router.get('/measurement-sensor-object', MeasurementController.getAllMeasurementSensorObject);
+
+
+
 
 
 

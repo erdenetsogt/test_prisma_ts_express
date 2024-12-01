@@ -47,3 +47,11 @@ export type MeasurementObjectUpdateInput = z.infer<typeof measurementObjectUpdat
 export const sensorMeasurementObjectUpdateSchema = sensorMeasurementObjectCreateSchema.partial()
 export type SensorMeasurementObjectCreateInput = z.infer<typeof sensorMeasurementObjectCreateSchema>;
 export type SensorMeasurementObjectUpdateInput = z.infer<typeof sensorMeasurementObjectUpdateSchema>;
+
+export const sensorObjectUpdateSchema = sensorObjectCreateSchema.partial()
+export type SensorObjectCreateInput = z.infer<typeof sensorObjectCreateSchema>;
+export type SensorObjectUpdateInput = z.infer<typeof sensorObjectUpdateSchema>;
+
+export const sensorUpdateSchema = sensorCreateSchema.partial()
+export type SensorCreateInput = z.infer<typeof sensorCreateSchema>;
+export type SensorUpdateInput = z.infer<typeof sensorUpdateSchema>;
