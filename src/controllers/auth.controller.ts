@@ -61,6 +61,7 @@ export class AuthController {
           username: user?.email,
           email: user?.email,
           companyName: user?.company?.name,
+          fullname: user?.people?.firstName+' '+user?.people?.lastName,
           first_name: user?.people?.firstName,
           last_name: user?.people?.lastName,
           roles: user?.UserRole.map(role => role.role.name),

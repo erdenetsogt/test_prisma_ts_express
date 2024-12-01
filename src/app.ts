@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import {authRouter} from './routes/auth.routes'
 import  peopleRouter  from './routes/poeple.routes';
+import { measurementRouter } from './routes/measurment.routes';
 import bodyParser from 'body-parser'
 dotenv.config();
 const router = express.Router();
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 //app.use(cors());
 router.use('/user', authRouter);
 router.use('/hr/people', peopleRouter);
+router.use('/m', measurementRouter);
 app.use(router);
 
 // Test route

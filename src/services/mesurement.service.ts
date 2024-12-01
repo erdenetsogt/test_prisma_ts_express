@@ -5,6 +5,7 @@ import {
   MeasurementObjectUpdateInput,
   measurementObjectCreateSchema,
   measurementObjectUpdateSchema,
+
   sensorCreateSchema,
   sensorUpdateSchema,
   SensorCreateInput,
@@ -12,7 +13,14 @@ import {
   sensorMeasurementObjectCreateSchema,
   sensorMeasurementObjectUpdateSchema,
   SensorMeasurementObjectCreateInput,
-  SensorMeasurementObjectUpdateInput
+  SensorMeasurementObjectUpdateInput,
+
+  sensorObjectCreateSchema,
+  sensorObjectUpdateSchema,
+  SensorObjectCreateInput,
+  SensorObjectUpdateInput,
+  
+
 } from "../schema/measurement.schema";
 import { connect } from "http2";
 
@@ -93,8 +101,10 @@ export class SensorMeasurementObjectService {
 export class SensorService{
   async create(sensorData: SensorCreateInput) {
     try {
+      console.log(sensorData)
       const validatedData = await sensorCreateSchema.parseAsync(sensorData);
       const { sensorType,...sensor } = validatedData;
+      console.log(sensor)
       const newSensor = await prisma.sensor.create({
         data: {          
           model: sensor?.model,
@@ -138,8 +148,15 @@ export class SensorService{
       throw error;
     }
   }
-  async getAll() {
-    return prisma.sensor.findMany();
+  async getAll(companyId: number) {
+    return prisma.sensor.findMany({
+      where: {
+        companyId: companyId
+      },
+      include: {
+        sensorType: true
+      }
+    });
   }
   async getById(id: number) {
     return prisma.sensor.findUnique({
@@ -148,5 +165,119 @@ export class SensorService{
         sensorType: true
       }
     });
+  }
+}
+export class MeasurementObjectService{
+  async create(measurementObjectData: MeasurementObjectCreateInput) {
+    try {
+      const validatedData = await measurementObjectCreateSchema.parseAsync(measurementObjectData);
+      //const { ...measurementObject } = validatedData;
+      const newMeasurementObject = await prisma.measurementObject.create({
+        data: {          
+          name: validatedData?.name,  
+          companyId: validatedData?.companyId,       
+          }        
+      });
+      return await newMeasurementObject;
+    }catch (error) {
+      console.error('Error in people.create:', error);
+      throw error;
+    }
+  }
+  async update(id: number, measurementObjectData: MeasurementObjectUpdateInput) {
+    try {
+      const validatedData = await measurementObjectUpdateSchema.parseAsync(measurementObjectData);
+      //const { measurementType,...measurementObject } = validatedData;
+      const updatedMeasurementObject = await prisma.measurementObject.update({
+        where: { id },
+        data: {
+          name: validatedData?.name,
+          companyId: validatedData?.companyId          
+        },
+      });
+      return await updatedMeasurementObject;
+    }catch (error) {
+      console.error('Error in people.update:', error);
+      throw error;
+    }   
+
+  }
+  async getAll(companyId: number) {
+    return prisma.measurementObject.findMany({
+      where: {
+        companyId: companyId
+      },      
+    });
+  }
+  async getById(id: number) {
+    return prisma.measurementObject.findUnique({
+      where: { id }      
+    });
+  }
+}
+export class SensorObjectService{
+  async create(sensorObjectData: SensorObjectCreateInput) {
+    try {
+      const validatedData = await sensorObjectCreateSchema.parseAsync(sensorObjectData);
+      const { sensor,...sensorObject } = validatedData;
+      const newSensorObject = await prisma.sensorObject.create({
+        data: {          
+          name: sensorObject?.name,
+          description: sensorObject?.description,
+          companyId: sensorObject?.companyId,
+          sensor: sensor?{
+            connect: {
+              id: sensor.id
+            }
+          }:undefined
+        },
+      });
+      return await newSensorObject;
+    }catch (error) {
+      console.error('Error in people.create:', error);
+      throw error;
+    }
+  }
+  async update(id: number, sensorObjectData: SensorObjectUpdateInput) {
+    try {
+      const validatedData = await sensorObjectUpdateSchema.parseAsync(sensorObjectData);
+      const { sensor,...sensorObject } = validatedData;
+      const updatedSensorObject = await prisma.sensorObject.update({
+        where: { id },
+        data: {
+          name: sensorObject?.name,
+          description: sensorObject?.description,
+          companyId: sensorObject?.companyId,
+          sensor: sensor?{
+            connect: {
+              id: sensor.id
+            }
+          }:undefined
+        },
+      });
+      return await updatedSensorObject;
+    }catch (error) {
+      console.error('Error in people.update:', error);
+      throw error;
+    }  
+
+  }
+  async getAll(companyId: number) {
+    return prisma.sensorObject.findMany({
+      where: {
+        companyId: companyId
+      },
+      include: {
+        sensor: true
+      }
+    });
+  }
+  async getById(id: number) {
+    return prisma.sensorObject.findUnique({
+      where: { id },
+      include: {
+        sensor: true
+      }
+    }); 
   }
 }
