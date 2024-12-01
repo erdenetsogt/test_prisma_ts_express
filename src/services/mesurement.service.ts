@@ -101,10 +101,10 @@ export class SensorMeasurementObjectService {
 export class SensorService{
   async create(sensorData: SensorCreateInput) {
     try {
-      console.log(sensorData)
+      //console.log(sensorData)
       const validatedData = await sensorCreateSchema.parseAsync(sensorData);
       const { sensorType,...sensor } = validatedData;
-      console.log(sensor)
+      //console.log(sensor)
       const newSensor = await prisma.sensor.create({
         data: {          
           model: sensor?.model,
@@ -218,20 +218,40 @@ export class MeasurementObjectService{
 export class SensorObjectService{
   async create(sensorObjectData: SensorObjectCreateInput) {
     try {
+      console.log(sensorObjectData)
       const validatedData = await sensorObjectCreateSchema.parseAsync(sensorObjectData);
       const { sensor,...sensorObject } = validatedData;
+      console.log(sensorObject)
+      console.log(sensor)
       const newSensorObject = await prisma.sensorObject.create({
         data: {          
           name: sensorObject?.name,
           description: sensorObject?.description,
           companyId: sensorObject?.companyId,
-          sensor: sensor?{
-            connect: {
-              id: sensor.id
+          sensor: {
+            connectOrCreate: {
+              where: {
+                id: sensor?.id??0
+              },
+              create: {
+                model: sensor?.model??"",
+                brand: sensor?.brand??"", 
+                sensorType: {
+                  connect: {
+                    id: sensor?.sensorType?.id
+                  }
+                },
+                range: sensor?.range,
+                companyId: sensor?.companyId
+              }
+              }
             }
-          }:undefined
-        },
+          },include: {
+            sensor: true
+          }
+        
       });
+
       return await newSensorObject;
     }catch (error) {
       console.error('Error in people.create:', error);

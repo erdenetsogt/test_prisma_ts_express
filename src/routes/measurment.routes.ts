@@ -17,7 +17,7 @@ router.put('/measurement-object/:id',AuthMiddleware.verifyToken, MeasurementCont
 router.get('/measurement-object/:id',AuthMiddleware.verifyToken, MeasurementController.getByIdMeasurementObject);
 router.get('/measurement-object',AuthMiddleware.verifyToken, MeasurementController.getAllMeasurementObject);
 
-router.post('/sensor-object',AuthMiddleware.verifyToken, MeasurementController.createSensorObject);
+router.post('/sensor-object', MeasurementController.createSensorObject);
 router.put('/sensor-object/:id',AuthMiddleware.verifyToken, MeasurementController.updateSensorObject);
 router.get('/sensor-object/:id',AuthMiddleware.verifyToken, MeasurementController.getByIdSensorObject);
 router.get('/sensor-object',AuthMiddleware.verifyToken, MeasurementController.getAllSensorObject);
