@@ -216,7 +216,7 @@ async function main() {
     data: {
       name: 'Admin',
       companyId: company.id,
-      permissions: ['*'],
+      permissions: ['{"Admin":"full"}'],
       UserRole: {
         create: {
           userId: user.id

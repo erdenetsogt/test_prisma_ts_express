@@ -143,9 +143,15 @@
       const roles = user.UserRole?.map((ur: any) => ur.role.name) || [];
       
       const payload: JWTPayload = {
-        userId: user.id,
+        id: user.id,
+        username: user.email,
         email: user.email,
+        peopleId: user.peopleId,
         companyId: user.companyId,
+        // companyName: user.company.name,
+        // first_name: user.people.firstName,
+        // last_name: user.people.lastName,
+        // fullname: user.people.firstName+' '+user.people.lastName,
         roles: roles,
         permissions: user.permissions
       };
@@ -174,5 +180,22 @@
         where: { id: userId },
         data: { refreshToken: null }
       });
+    }
+    async me(UserId: number) {
+      const user = await prisma.user.findUnique({
+        where: { id: UserId },
+        include: {
+          company: true,
+          people: true,
+          UserRole: {
+            include: {
+              role: true,
+              //people: true,
+              
+            }
+          }
+        }
+      });
+      return user;
     }
   }

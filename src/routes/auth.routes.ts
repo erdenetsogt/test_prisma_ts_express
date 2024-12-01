@@ -8,6 +8,7 @@ const authService = new AuthController();
 // Use the middleware with proper typing
 
 router.post('/login', authService.login);
+router.get('/user',AuthMiddleware.verifyToken, authService.me);
 router.post('/register', authService.register);
 router.post('/logout', authService.logout);
 router.post('/refresh', AuthMiddleware.verifyToken, authService.refresh);

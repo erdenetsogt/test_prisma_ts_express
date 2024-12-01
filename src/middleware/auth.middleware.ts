@@ -15,19 +15,20 @@ export class AuthMiddleware {
   ): Promise<void> | void {
     try {
       const token = req.headers.authorization?.split(' ')[1];
-
+      
       if (!token) {
         res.status(401).json({ message: 'No token provided' });
         return;
       }
 
       const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
-
+      console.log(decoded);
       // Use Promise.resolve() to handle the async operation properly
       return Promise.resolve()
         .then(async () => {
           const user = await prisma.user.findUnique({
-            where: { id: decoded.userId },
+            
+            where: { id: decoded.id },
             include: {
               UserRole: {
                 include: {
@@ -48,15 +49,19 @@ export class AuthMiddleware {
           }
 
           const roles = user.UserRole.map(ur => ur.role.name);
+          console.log(roles);
           //const permissions = user.UserRole.flatMap(ur => JSON.parse(ur.role.permissions) as string[]);
           const permissions = user.UserRole.flatMap(ur => {
             const parsedPermissions = ur.role.permissions ? JSON.parse(ur.role.permissions as string) : null;
             return Array.isArray(parsedPermissions) ? parsedPermissions : [];
           }) as string[];
-
+          
+          console.log(permissions);
           req.user = {
-            userId: user.id,
+            id: user.id,
             email: user.email,
+            username: user.email,
+            peopleId: user.peopleId ?? 0,
             companyId: user.companyId ?? 0,
             roles,
             permissions
@@ -66,7 +71,7 @@ export class AuthMiddleware {
         })
         .catch((error) => {
           console.error('Token verification error:', error);
-          res.status(401).json({ message: 'Invalid token' });
+          res.status(401).json({ message: 'Invalid token 1' });
         });
     } catch (error) {
       res.status(401).json({ message: 'Invalid token' });

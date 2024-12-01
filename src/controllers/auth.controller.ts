@@ -39,11 +39,34 @@ export class AuthController {
 
   public async logout(req: AuthRequest, res: Response) {
     try {
-      if (!req.user?.userId) {
+      if (!req.user?.id) {
         throw new Error('User not authenticated');
       }
-      await authService.logout(req.user.userId);
+      await authService.logout(req.user.id);
       res.json({ message: 'Logged out successfully' });
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+  public async me(req: AuthRequest, res: Response) {
+    try {
+      if (!req.user) {
+        throw new Error('User not authenticated');
+      }
+      const user = await authService.me(req.user.id);
+
+      res.json(
+        {
+          id: user?.id,
+          username: user?.email,
+          email: user?.email,
+          companyName: user?.company?.name,
+          first_name: user?.people?.firstName,
+          last_name: user?.people?.lastName,
+          roles: user?.UserRole.map(role => role.role.name),
+          permissions: user?.UserRole.flatMap(role => Array.isArray(role.role.permissions) ? role.role.permissions.map(permission => permission?? '') : [])
+        }
+      );
     } catch (error: any) {
       res.status(400).json({ message: error.message });
     }
