@@ -26,8 +26,8 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 //app.use(cors());
 router.use('/user', authRouter);
 router.use('/hr/people', peopleRouter);
-router.use('/m', measurementRouter);
-router.use('company/', employeeRouter);
+router.use('/measure', measurementRouter);
+router.use('/company', employeeRouter);
 app.use(router);
 
 // Test route
