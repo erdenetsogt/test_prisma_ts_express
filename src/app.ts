@@ -18,8 +18,6 @@ var options = {
 }
 app.use(cors());
 
-//app.use(bodyParser.raw(options));
-//app.use(bodyParser.json({ verify: (req, res, buf) => req.rawBody = buf }))
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
