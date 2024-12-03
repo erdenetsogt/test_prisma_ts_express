@@ -50,7 +50,7 @@ export class AuthMiddleware {
 
           const roles = user.userRole.map(ur => ur.role.name);
           console.log(roles);
-          //const permissions = user.UserRole.flatMap(ur => JSON.parse(ur.role.permissions) as string[]);
+          //const permissions = user.userRole.flatMap(ur => JSON.parse(ur.role.permissions) as string[]);
           const permissions = user.userRole.flatMap(ur => {
             const parsedPermissions = ur.role.permissions ? JSON.parse(ur.role.permissions as string) : null;
             return Array.isArray(parsedPermissions) ? parsedPermissions : [];

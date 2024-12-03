@@ -64,8 +64,8 @@ export class AuthController {
           fullname: user?.people?.firstName+' '+user?.people?.lastName,
           first_name: user?.people?.firstName,
           last_name: user?.people?.lastName,
-          roles: user?.UserRole.map(role => role.role.name),
-          permissions: user?.UserRole.flatMap(role => Array.isArray(role.role.permissions) ? role.role.permissions.map(permission => permission?? '') : [])
+          roles: user?.userRole.map(role => role.role.name),
+          permissions: user?.userRole.flatMap(role => Array.isArray(role.role.permissions) ? role.role.permissions.map(permission => permission?? '') : [])
         }
       );
     } catch (error: any) {
