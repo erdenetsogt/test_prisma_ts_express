@@ -431,9 +431,7 @@ CREATE TABLE `departments` (
     `parentId` INTEGER NULL,
     `companyId` INTEGER NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `startdate` DATETIME(3) NOT NULL,
-    `enddate` DATETIME(3) NULL,
-    `status` INTEGER NOT NULL,
+    `status` INTEGER NULL,
 
     UNIQUE INDEX `departments_parentId_key`(`parentId`),
     PRIMARY KEY (`id`)
@@ -445,8 +443,6 @@ CREATE TABLE `positions` (
     `name` VARCHAR(191) NULL,
     `departmentId` INTEGER NOT NULL,
     `status` INTEGER NULL,
-    `startdate` DATETIME(3) NOT NULL,
-    `enddate` DATETIME(3) NULL,
 
     UNIQUE INDEX `positions_departmentId_key`(`departmentId`),
     PRIMARY KEY (`id`)
@@ -458,8 +454,6 @@ CREATE TABLE `employees` (
     `peopleId` INTEGER NOT NULL,
     `positionId` INTEGER NOT NULL,
     `status` INTEGER NULL,
-    `startdate` DATETIME(3) NOT NULL,
-    `enddate` DATETIME(3) NULL,
 
     UNIQUE INDEX `employees_peopleId_key`(`peopleId`),
     UNIQUE INDEX `employees_positionId_key`(`positionId`),
@@ -614,9 +608,6 @@ ALTER TABLE `employees` ADD CONSTRAINT `employees_peopleId_fkey` FOREIGN KEY (`p
 
 -- AddForeignKey
 ALTER TABLE `sensors` ADD CONSTRAINT `sensors_sensorTypeId_fkey` FOREIGN KEY (`sensorTypeId`) REFERENCES `sensorTypes`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `sensors` ADD CONSTRAINT `sensors_companyId_fkey` FOREIGN KEY (`companyId`) REFERENCES `companies`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `sensorObjects` ADD CONSTRAINT `sensorObjects_sensorId_fkey` FOREIGN KEY (`sensorId`) REFERENCES `sensors`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

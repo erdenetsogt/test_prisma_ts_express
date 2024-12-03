@@ -30,7 +30,7 @@ export class AuthMiddleware {
             
             where: { id: decoded.id },
             include: {
-              UserRole: {
+              userRole: {
                 include: {
                   role: true
                 }
@@ -48,10 +48,10 @@ export class AuthMiddleware {
             return;
           }
 
-          const roles = user.UserRole.map(ur => ur.role.name);
+          const roles = user.userRole.map(ur => ur.role.name);
           console.log(roles);
           //const permissions = user.UserRole.flatMap(ur => JSON.parse(ur.role.permissions) as string[]);
-          const permissions = user.UserRole.flatMap(ur => {
+          const permissions = user.userRole.flatMap(ur => {
             const parsedPermissions = ur.role.permissions ? JSON.parse(ur.role.permissions as string) : null;
             return Array.isArray(parsedPermissions) ? parsedPermissions : [];
           }) as string[];

@@ -356,7 +356,7 @@ model User {
   updatedAt    DateTime   @updatedAt
   company      Company?   @relation(fields: [companyId], references: [id])
   people       People?    @relation(fields: [peopleId], references: [id])
-  UserRole     UserRole[]
+  userRole     UserRole[]
 
   @@map("users")
 }
@@ -380,8 +380,8 @@ model Role {
   companyId   Int
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  UserRole    UserRole[]
-  RoleModule  RoleModule[]
+  userRole    UserRole[]
+  roleModule  RoleModule[]
 
   @@map("roles")
 }
@@ -409,7 +409,7 @@ model ModuleCompany {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   module     Module       @relation(fields: [moduleId], references: [id])
-  RoleModule RoleModule[]
+  roleModule RoleModule[]
 
   @@map("moduleCompanies")
 }
@@ -420,7 +420,7 @@ model Module {
   description   String?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  ModuleCompany ModuleCompany[]
+  moduleCompany ModuleCompany[]
 
   @@map("modules")
 }
@@ -433,7 +433,7 @@ model Company {
   updatedAt   DateTime     @updatedAt
   doors       Door[]  
   departments Department[]
-  User        User[]
+  user        User[]
 
   @@map("companies")
 }
@@ -443,13 +443,11 @@ model Department {
   parentId  Int?         @unique
   companyId Int
   name      String
-  startdate DateTime
-  enddate   DateTime?
-  status    Int
+  status    Int?
   parent    Department?  @relation("DepartmentToParent", fields: [parentId], references: [id])
   children  Department[] @relation("DepartmentToParent")
   company   Company      @relation(fields: [companyId], references: [id])
-  Position  Position[]
+  position  Position[]
 
   @@map("departments")
 }
@@ -458,10 +456,8 @@ model Position {
   id           Int        @id @default(autoincrement())
   name         String?
   departmentId Int        @unique
-  status       Int?
-  startdate    DateTime
-  enddate      DateTime?
-  Employee     Employee[]
+  status       Int? 
+  employee     Employee[]
   department   Department @relation(fields: [departmentId], references: [id])
 
   @@map("positions")
@@ -471,11 +467,9 @@ model Employee {
   id         Int       @id @default(autoincrement())
   peopleId   Int       @unique
   positionId Int       @unique
-  status     Int?
-  startdate  DateTime
-  enddate    DateTime?
-  Position   Position  @relation(fields: [positionId], references: [id])
-  People     People    @relation(fields: [peopleId], references: [id])
+  status     Int?  
+  position   Position  @relation(fields: [positionId], references: [id])
+  people     People    @relation(fields: [peopleId], references: [id])
 
   @@map("employees")
 }
@@ -491,7 +485,7 @@ model Sensor {
   companyId    Int?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  SensorObject SensorObject?
+  sensorObject SensorObject?
 
   @@map("sensors")
 }
@@ -513,8 +507,8 @@ model SensorObject {
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
   sensor                  Sensor?                  @relation(fields: [sensorId], references: [id])
-  SensorObjectValue       SensorObjectValue[]
-  MeasurementSensorObject MeasurementSensorObject?
+  sensorObjectValue       SensorObjectValue[]
+  measurementSensorObject MeasurementSensorObject?
 
   @@map("sensorObjects")
 }
@@ -537,7 +531,7 @@ model MeasurementObject {
   companyId               Int
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
-  MeasurementSensorObject MeasurementSensorObject?
+  measurementSensorObject MeasurementSensorObject?
 
   @@map("measurementObjects")
 }

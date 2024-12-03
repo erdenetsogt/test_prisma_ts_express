@@ -38,7 +38,7 @@
         include: {
           company: true,
           people: true,
-          UserRole: {
+          userRole: {
             include: {
               role: true
             }
@@ -65,7 +65,7 @@
         include: {
           company: true,
           people: true,
-          UserRole: {
+          userRole: {
             include: {
               role: true
             }
@@ -112,7 +112,7 @@
         include: {
           company: true,
           people: true,
-          UserRole: {
+          userRole: {
             include: {
               role: true
             }
@@ -140,7 +140,7 @@
     }
   
     private async generateTokens(user: any) {
-      const roles = user.UserRole?.map((ur: any) => ur.role.name) || [];
+      const roles = user.userRole?.map((ur: any) => ur.role.name) || [];
       
       const payload: JWTPayload = {
         id: user.id,
@@ -187,7 +187,7 @@
         include: {
           company: true,
           people: true,
-          UserRole: {
+          userRole: {
             include: {
               role: true,
               //people: true,

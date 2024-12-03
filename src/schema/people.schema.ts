@@ -97,10 +97,6 @@ export const peopleCreateSchema = z.object({
     talent: z.array(peopleTalentSchema).optional(),
     
 });
-
-
 export const peopleUpdateSchema = peopleCreateSchema.partial();
-
-
 export type PeopleCreateInput = z.infer<typeof peopleCreateSchema>;
 export type PeopleUpdateInput = z.infer<typeof peopleUpdateSchema>;

@@ -179,19 +179,18 @@ async function main() {
     data: {
       name: 'IT Department',
       companyId: company.id,
-      startdate: new Date(),
       status: 1,
       parentId: null,
-      Position: {
+      position: {
         create: {
           name: 'Software Developer',
           status: 1,
-          startdate: new Date(),
-          Employee: {
+          
+          employee: {
             create: {
               peopleId: person.id,
               status: 1,
-              startdate: new Date()
+              
             }
           }
         }
@@ -217,7 +216,7 @@ async function main() {
       name: 'Admin',
       companyId: company.id,
       permissions: ['{"Admin":"full"}'],
-      UserRole: {
+      userRole: {
         create: {
           userId: user.id
           
@@ -239,7 +238,7 @@ async function main() {
       moduleId: module.id,
       companyId: company.id,
       enable: true,
-      RoleModule: {
+      roleModule: {
         create: {
           roleId: role.id,
           read: true,
@@ -264,12 +263,12 @@ async function main() {
       range: '-40°C to 80°C',
       sensorTypeId: sensorType.id,
       companyId: company.id,
-      SensorObject: {
+      sensorObject: {
         create: {
           name: 'Room Temperature Sensor',
           companyId: company.id,
           description: 'Main office room temperature sensor',
-          SensorObjectValue: {
+          sensorObjectValue: {
             create: {
               value: 23.5,
               date: new Date()

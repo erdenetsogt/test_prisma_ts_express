@@ -4,16 +4,16 @@ import { AuthMiddleware } from '../middleware/auth.middleware';
 const auth = new AuthMiddleware();
 
 
-const peopleRouter = Router();
+const router = Router();
 
-peopleRouter.get('/main', PeopleController.getAll);
-peopleRouter.get('/main/:id', PeopleController.getById);
-peopleRouter.post('/main', PeopleController.create);
-peopleRouter.put('/main/:id', PeopleController.update);
+router.get('/main', PeopleController.getAll);
+router.get('/main/:id', PeopleController.getById);
+router.post('/main', PeopleController.create);
+router.put('/main/:id', PeopleController.update);
 
 //peopleRouter.delete('/main/:id', PeopleController.delete);
 //peopleRouter.get('/:id/education', PeopleController.getEducation);
 //peopleRouter.post('/main/bulk', PeopleController.bulkCreate);
 
-export default peopleRouter;
+export const peopleRouter = router;
 

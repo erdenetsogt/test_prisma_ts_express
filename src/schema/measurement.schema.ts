@@ -13,11 +13,6 @@ export const sensorCreateSchema = z.object({
   companyId: z.number().int().positive(),
 });
  
-// const sensorObjectValueSchema = z.object({
-//   id: z.number().optional(),
-//   name: z.string().min(1, 'Name is required'),
-//   value: z.string().min(1, 'Value is required'),
-// });
 export const sensorObjectCreateSchema = z.object({
   id: z.number().optional(),
   name: z.string().min(1, 'Name is required'),
