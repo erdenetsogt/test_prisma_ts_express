@@ -5,17 +5,14 @@ import { authRouter } from './routes/auth.routes'
 import { peopleRouter } from './routes/poeple.routes';
 import { measurementRouter } from './routes/measurment.routes';
 import { employeeRouter } from './routes/employee.routes';
+import { valueRouter } from './routes/value.routes';
 import bodyParser from 'body-parser'
 dotenv.config();
 const router = express.Router();
 const app: Express = express();
 const port = process.env.PORT || 5000;
 
-var options = {
-  inflate: true,
-  limit: '100kb',
-  type: 'application/json'
-}
+
 app.use(cors());
 
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -26,6 +23,7 @@ router.use('/user', authRouter);
 router.use('/hr/people', peopleRouter);
 router.use('/measure', measurementRouter);
 router.use('/company', employeeRouter);
+router.use('/value', valueRouter);
 app.use(router);
 
 // Test route

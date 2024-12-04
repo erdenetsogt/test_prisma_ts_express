@@ -25,4 +25,22 @@ export class SensorObjectValueService {
       throw error
     }
   }
+  async getAll(id:number) {
+    try {
+      const values = await prisma.measurementSensorObject.findMany({
+        where: {
+          measurementObjectId:id
+        },
+        include: {
+          measurementObject: true,
+          sensorObject: true,          
+        }
+      });
+      return values;
+    } catch (error) {
+      console.error('Error in people.getAll:', error);
+      throw error;
+    }
+  }
+
 } 
