@@ -1,6 +1,6 @@
 
 import { sensorObjectCreateSchema } from "./measurement.schema"
-import { sensorMeasurementObjectCreateSchema } from "./measurement.schema";
+//import { sensorMeasurementObjectCreateSchema } from "./measurement.schema";
 
 import { z } from "zod"
 export const sensorObjectValueCreateSchema = z.object({
