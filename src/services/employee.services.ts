@@ -4,8 +4,6 @@ import {
   companyUpdateSchema,
   CompanyCreateInput,
   CompanyUpdateInput,
-
-
   departmentCreateSchema,
   departmentUpdateSchema,
   DepartmentCreateInput,

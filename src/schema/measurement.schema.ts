@@ -24,11 +24,13 @@ export const sensorObjectCreateSchema = z.object({
 export const measurementObjectCreateSchema = z.object({
   id: z.number().optional(),
   name:z.string().min(1, 'Name is required'),
+  description: z.string().min(1, 'Description is required'),
+  location:z.string().min(1, 'Location is required'),
   companyId: z.number().int().positive(),
   //sensorObject: sensorObjectCreateSchema.optional(),
 })
 
-export const sensorMeasurementObjectCreateSchema = z.object({
+export const measurementSensorObjectCreateSchema = z.object({
   //id: z.number().optional(),
   // measurementObject: measurementObjectCreateSchema.optional(),
   // sensorObject: sensorObjectCreateSchema.optional(),
@@ -40,9 +42,9 @@ export const measurementObjectUpdateSchema = measurementObjectCreateSchema.parti
 export type MeasurementObjectCreateInput = z.infer<typeof measurementObjectCreateSchema>;
 export type MeasurementObjectUpdateInput = z.infer<typeof measurementObjectUpdateSchema>;
 
-export const sensorMeasurementObjectUpdateSchema = sensorMeasurementObjectCreateSchema.partial()
-export type SensorMeasurementObjectCreateInput = z.infer<typeof sensorMeasurementObjectCreateSchema>;
-export type SensorMeasurementObjectUpdateInput = z.infer<typeof sensorMeasurementObjectUpdateSchema>;
+export const measurementSensorObjectUpdateSchema = measurementSensorObjectCreateSchema.partial()
+export type MeasurementSensorObjectCreateInput = z.infer<typeof measurementSensorObjectCreateSchema>;
+export type MeasurementSensorObjectUpdateInput = z.infer<typeof measurementSensorObjectUpdateSchema>;
 
 export const sensorObjectUpdateSchema = sensorObjectCreateSchema.partial()
 export type SensorObjectCreateInput = z.infer<typeof sensorObjectCreateSchema>;

@@ -1,8 +1,7 @@
 import express, { Response } from 'express';
 import { AuthMiddleware } from '../middleware/auth.middleware';
-import { AuthRequest } from '../types/auth.types';
 import { MeasurementController } from '../controllers/measurement.controller'
-
+import { ValueController } from '../controllers/value.controller';
 const router = express.Router();
 
 // Use the middleware with proper typing
@@ -27,6 +26,8 @@ router.put('/sensor/:id',AuthMiddleware.verifyToken, MeasurementController.updat
 router.get('/sensor/:id',AuthMiddleware.verifyToken, MeasurementController.getByIdSensor);
 router.get('/sensor',AuthMiddleware.verifyToken, MeasurementController.getAllSensor);
 
+router.post('/value', ValueController.createValue);
+router.get('/value/:id', ValueController.getByIdMeasurementObject);
 
 
 

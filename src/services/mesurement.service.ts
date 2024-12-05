@@ -10,10 +10,10 @@ import {
   sensorUpdateSchema,
   SensorCreateInput,
   SensorUpdateInput,
-  sensorMeasurementObjectCreateSchema,
-  sensorMeasurementObjectUpdateSchema,
-  SensorMeasurementObjectCreateInput,
-  SensorMeasurementObjectUpdateInput,
+  measurementSensorObjectCreateSchema,
+  measurementSensorObjectUpdateSchema,
+  MeasurementSensorObjectCreateInput,
+  MeasurementSensorObjectUpdateInput,
 
   sensorObjectCreateSchema,
   sensorObjectUpdateSchema,
@@ -27,15 +27,17 @@ import { connect } from "http2";
 const prisma = new PrismaClient();
 
 export class SensorMeasurementObjectService {
-  async create(measurmentSensorObjectData: SensorMeasurementObjectCreateInput) {
+  async create(measurmentSensorObjectData: MeasurementSensorObjectCreateInput) {
     try {
       
-      const validatedData = await sensorMeasurementObjectCreateSchema.parseAsync(measurmentSensorObjectData);
+      const validatedData = await measurementSensorObjectCreateSchema.parseAsync(measurmentSensorObjectData);
       const {
         sensorObjectId,
         measurementObjectId,
         companyId
       } = validatedData;
+
+      console.log(validatedData)
       const newMeasurementObject = await prisma.measurementSensorObject.create({
         data: {
           sensorObjectId: sensorObjectId,
@@ -52,20 +54,20 @@ export class SensorMeasurementObjectService {
 
   async getAll(companyId: number) {
     return prisma.measurementSensorObject.findMany(
-    //   {
-    //   where: {
-    //     measurementObject: {
-    //       companyId: companyId
-    //     },
-    //     sensorObject: {
-    //       companyId: companyId
-    //     }
-    //   },
-    //   include: {
-    //     sensorObject: true,
-    //     measurementObject: true
-    //   }
-    // }
+      {
+      where: {
+        measurementObject: {
+          companyId: companyId
+        },
+        sensorObject: {
+          companyId: companyId
+        }
+      },
+      include: {        
+        sensorObject: true,
+        measurementObject: true
+      }
+    }
   )
   }
   async getById(id: number) {
@@ -77,9 +79,9 @@ export class SensorMeasurementObjectService {
       }
     });
   }
-  async update(id: number, measurmentSensorObjectData: SensorMeasurementObjectUpdateInput) {
+  async update(id: number, measurmentSensorObjectData: MeasurementSensorObjectUpdateInput) {
     try {
-      const validatedData = await sensorMeasurementObjectUpdateSchema.parseAsync(measurmentSensorObjectData);
+      const validatedData = await measurementSensorObjectUpdateSchema.parseAsync(measurmentSensorObjectData);
       const {
         sensorObjectId,
         measurementObjectId
@@ -175,7 +177,9 @@ export class MeasurementObjectService{
       const newMeasurementObject = await prisma.measurementObject.create({
         data: {          
           name: validatedData?.name,  
-          companyId: validatedData?.companyId,       
+          companyId: validatedData?.companyId,  
+          location: validatedData?.location,
+          description: validatedData?.description,     
           }        
       });
       return await newMeasurementObject;
