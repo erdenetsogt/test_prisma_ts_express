@@ -7,7 +7,6 @@ export const companyCreateSchema = z.object({
   id: z.number().optional(),
   name: z.string().min(1, 'Name is required'),
 })
-
 export const departmentCreateSchema = z.object({
   id: z.number().optional(),
   parentId: z.number().optional(),
