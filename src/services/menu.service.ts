@@ -90,7 +90,7 @@ export class MenuService {
         }
       });
       if (menuItems.length >0) {
-        console.log(menuItems)
+        //console.log(menuItems)
         return this.cleanObject(menuItems);
       }
       else {

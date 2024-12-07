@@ -6,7 +6,8 @@ import nationalData from './national.json'
 import relationData from './relation.json'
 import genderData from './gender.json'
 import languageData from './language.json'
-
+import { MenuService } from '../src/services/menu.service'
+import { MENU_MEGA, MENU_SIDEBAR, MENU_ROOT } from './menu'
 import * as jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt';
 import { AuthService } from '../src/services/auth.service';
@@ -51,7 +52,11 @@ async function main() {
   ])
 
   // Create base data
-
+  const menuService = new MenuService();
+  menuService.importMenuConfig(MENU_ROOT, 'ROOT');
+  menuService.importMenuConfig(MENU_SIDEBAR, 'SIDEBAR');
+  menuService.importMenuConfig(MENU_MEGA, 'MEGA');
+  
   const authService = new AuthService();
 
   for (const province of provinceData.provinces) {
