@@ -5,7 +5,7 @@ import { authRouter } from './routes/auth.routes'
 import { peopleRouter } from './routes/poeple.routes';
 import { measurementRouter } from './routes/measurment.routes';
 import { employeeRouter } from './routes/employee.routes';
-import { valueRouter } from './routes/value.routes';
+import { menuRouter } from './routes/menu.routes';
 import bodyParser from 'body-parser'
 dotenv.config();
 const router = express.Router();
@@ -23,6 +23,7 @@ router.use('/user', authRouter);
 router.use('/hr/people', peopleRouter);
 router.use('/m', measurementRouter);
 router.use('/company', employeeRouter);
+router.use('/menu', menuRouter);
 //router.use('/value', valueRouter);
 app.use(router);
 

@@ -546,3 +546,32 @@ model MeasurementSensorObject {
 
   @@map("measurementSensorObject")
 }
+
+model MenuItem {
+  id            Int         @id @default(autoincrement())
+  title         String?
+  icon          String?
+  path          String?
+  heading       String?
+  disabled      Boolean     @default(false)
+  collapse      Boolean     @default(false)
+  collapseTitle String?
+  expandTitle   String?
+  parentId      Int?
+  parent        MenuItem?   @relation("MenuHierarchy", fields: [parentId], references: [id])
+  children      MenuItem[]  @relation("MenuHierarchy")
+  menuType      MenuType    @default(SIDEBAR)
+  placement     String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  @@map("menuItem")
+}
+
+
+
+
+enum MenuType {
+  SIDEBAR
+  MEGA
+  ROOT
+}

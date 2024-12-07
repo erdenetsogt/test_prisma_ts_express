@@ -300,7 +300,7 @@ async function main() {
       companyId: company.id
     }
   })
-
+  
   console.log('Seed data created successfully')
 }
 
