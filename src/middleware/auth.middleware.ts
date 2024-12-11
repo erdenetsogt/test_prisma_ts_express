@@ -15,14 +15,15 @@ export class AuthMiddleware {
   ): Promise<void> | void {
     try {
       const token = req.headers.authorization?.split(' ')[1];
-      
+      console.log(token)
       if (!token) {
         res.status(401).json({ message: 'No token provided' });
         return;
       }
-
+      
+      //console.log(token)
       const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
-      console.log(decoded);
+      //console.log(decoded);
       // Use Promise.resolve() to handle the async operation properly
       return Promise.resolve()
         .then(async () => {

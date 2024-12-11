@@ -91,7 +91,7 @@
   
       // Generate new tokens
       const { accessToken, refreshToken } = await this.generateTokens(user);
-  
+      //console.log(accessToken);
       // Update refresh token in database
       await prisma.user.update({
         where: { id: user.id },

@@ -562,13 +562,13 @@ model MenuItem {
   children      MenuItem[]  @relation("MenuHierarchy")
   menuType      MenuType    @default(SIDEBAR)
   placement     String?
+  order         Int         @default(0)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  @@index([menuType])
   @@map("menuItem")
 }
-
-
-
 
 enum MenuType {
   SIDEBAR

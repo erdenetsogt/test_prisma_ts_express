@@ -1,5 +1,4 @@
-
-import { PrismaClient, MenuItem } from '@prisma/client';
+import { PrismaClient, MenuItem, MenuType } from '@prisma/client';
 import { MENU_SIDEBAR, MENU_MEGA, MENU_ROOT } from '../config/menu.config';
 const prisma = new PrismaClient();
 
@@ -7,7 +6,10 @@ export class MenuService {
 
   private cleanObject(obj: any): any {
     Object.keys(obj).forEach(key => {
-      // Remove null, undefined and false values
+      // Remove  null, undefined and false values
+      if (key === 'id' || key === "menuType"||key==="order"||key==="createdAt"||key==="updatedAt"||key=="parentId") {
+        delete obj[key];
+      }
       if (obj[key] === null || obj[key] === undefined || obj[key] === false) {
         delete obj[key];
       }
@@ -69,7 +71,41 @@ export class MenuService {
       throw error;
     }
   }
+  async menuItem() {
+    try {
+      const menuItems = await prisma.menuItem.findMany({
+        where: {
+          parentId: null
+        },
+        include: {
+          children: {
+            include: {
+              children: {
+                include: {
+                  children: true
+                }
+              }
+            }
+          }
+        }
+      });
+      if (menuItems.length > 0) {
+        const groupedMenus = Object.values(MenuType).reduce((acc, type) => ({
+          ...acc,
+          [type]: menuItems.filter(item => item.menuType === type)
+        }), {} as Record<MenuType, MenuItem[]>);
 
+        return this.cleanObject(groupedMenus);
+      }
+      else {
+        return menuItems;
+      }
+    }
+    catch (error) {
+      console.error('Failed to get menu structure:', error);
+      throw error;
+    }
+  }
   async getMenuStructure(menuType: 'SIDEBAR' | 'MEGA' | 'ROOT') {
     try {
       const menuItems = await prisma.menuItem.findMany({
@@ -89,7 +125,7 @@ export class MenuService {
           }
         }
       });
-      if (menuItems.length >0) {
+      if (menuItems.length > 0) {
         //console.log(menuItems)
         return this.cleanObject(menuItems);
       }

@@ -21,6 +21,7 @@ export class AuthController {
     try {
       
       const result = await authService.login(req.body);
+      console.log(result)
       res.json(result);
     } catch (error: any) {
       res.status(401).json({ message: error.message });

@@ -531,6 +531,28 @@ CREATE TABLE `measurementSensorObject` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `menuItem` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(191) NULL,
+    `icon` VARCHAR(191) NULL,
+    `path` VARCHAR(191) NULL,
+    `heading` VARCHAR(191) NULL,
+    `disabled` BOOLEAN NOT NULL DEFAULT false,
+    `collapse` BOOLEAN NOT NULL DEFAULT false,
+    `collapseTitle` VARCHAR(191) NULL,
+    `expandTitle` VARCHAR(191) NULL,
+    `parentId` INTEGER NULL,
+    `menuType` ENUM('SIDEBAR', 'MEGA', 'ROOT') NOT NULL DEFAULT 'SIDEBAR',
+    `placement` VARCHAR(191) NULL,
+    `order` INTEGER NOT NULL DEFAULT 0,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+
+    INDEX `menuItem_menuType_idx`(`menuType`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `doors` ADD CONSTRAINT `doors_companyId_fkey` FOREIGN KEY (`companyId`) REFERENCES `companies`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -620,3 +642,6 @@ ALTER TABLE `measurementSensorObject` ADD CONSTRAINT `measurementSensorObject_me
 
 -- AddForeignKey
 ALTER TABLE `measurementSensorObject` ADD CONSTRAINT `measurementSensorObject_sensorObjectId_fkey` FOREIGN KEY (`sensorObjectId`) REFERENCES `sensorObjects`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `menuItem` ADD CONSTRAINT `menuItem_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `menuItem`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
